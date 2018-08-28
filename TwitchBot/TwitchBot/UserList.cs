@@ -5,22 +5,26 @@ using TwitchLib.Api.Models.Undocumented;
 
 namespace TwitchBot
 {
-    public class UserList
+    public class UserListClass
     {
-        //private List<>
+        private List<string> userList;
+        public UserListClass()
+        {
+            userList = new List<string>();
+
+        }
         public void DisplayUserList(List<TwitchLib.Api.Models.Undocumented.Chatters.ChatterFormatted> list)
         {
             foreach (var user in list)
             {
-               TwitchBotWin.winRef.AddNewUserToStackPanel(user.Username, "1");
+                TwitchBotWin.winRef.AddNewUserToStackPanel(user.Username);
             }
-            TwitchBotWin.winRef.twitchClient.WriteMessage("Aktuell sind " + (list.Count + 1) + "User online!");
+            // TwitchBotWin.winRef.twitchClient.WriteMessage("Aktuell sind " + (list.Count + 1) + " User online!");
         }
     }
 
     public class UserEintrag
     {
-        public StackPanel userPanel;
         public string name;
     }
 }

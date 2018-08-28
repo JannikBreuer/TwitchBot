@@ -15,13 +15,13 @@ namespace TwitchBot
 {
     public class TwitchApi
     {
-        private UserList userListClass;
+        private UserListClass userListClass;
         private static TwitchAPI api;
 
 
         public TwitchApi()
         {
-            userListClass = new UserList();
+            userListClass = new UserListClass();
             api = new TwitchAPI();
             api.Settings.ClientId = "opktuhj4e5cyop3gycd0jwssv6evvz";
             api.Settings.AccessToken = "oauth: 9fxcnrikonai5w0vgt0ggaz6bj2pwy";

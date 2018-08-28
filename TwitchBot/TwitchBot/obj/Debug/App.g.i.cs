@@ -61,7 +61,7 @@ namespace TwitchBot {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main() {
-            TwitchBot.App app = new TwitchBot.App();
+            global::TwitchBot.App app = new global::TwitchBot.App();
             app.InitializeComponent();
             app.Run();
         }

@@ -24,8 +24,7 @@ namespace TwitchBot
         private string imagePfadBtn = @"D:\GitHub\TwitchBot\TwitchBot\UserListBackroundNormal.jpg";
 
         public TwitchApi apiClass = new TwitchApi();
-        public IcrTwitch twitchClient = new IcrTwitch("irc.twitch.tv", 6667,
-                                                    "jnkstv", "oauth:9fxcnrikonai5w0vgt0ggaz6bj2pwy", "sentiolive");
+        public TwitchBotClient twitchClient = new TwitchBotClient("jnkstv", "oauth:9fxcnrikonai5w0vgt0ggaz6bj2pwy", "sentiolive");
         public static TwitchBotWin winRef;
         public TwitchBotWin()
         {
@@ -33,7 +32,6 @@ namespace TwitchBot
             winRef = this;
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
-            AddNewUserToStackPanel("Jannik", "Test");
         }
         private void grid_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -103,20 +101,6 @@ namespace TwitchBot
             var brush = (Brush)converter.ConvertFromString(hexCode);
             return brush;
         }
-        /*
-         * 
-         *              <StackPanel Orientation="Horizontal" Height="30" Background="#FF035AA2" >
-                            <Label Content="Name: Jannik"/>
-                            <Label Margin="400,0,0,0" Content="Date: 21.08.2017"/>
-                        </StackPanel>
-                        <Label Margin="50,-1,0,0" Content="Message: Das ist eine Message." Background="#FF035AA2"/>
-                        <StackPanel Orientation="Horizontal" Height="30" Background="CornflowerBlue" Margin="0,10,0,0" >
-                            <Label Content="Jannik" Foreground="WhiteSmoke" />
-                            <Label Margin="465,0,0,0" Content="21.08.2017" Foreground="WhiteSmoke"/>
-                        </StackPanel>
-                        <Label Margin="50,-1,0,0" Content="Das ist eine Message." Background="#FF035AA2" Foreground="WhiteSmoke"/>
-        */
-
         public void AddNewMessageToStackPanel(string username, string message, string date)
         {
             Dispatcher.Invoke(() =>
@@ -154,37 +138,19 @@ namespace TwitchBot
                 stackPanel_Message.Children.Add(lb_Message);
             });
         }
-        public void AddNewUserToStackPanel(string userName, string upTime)
+        public void AddNewUserToStackPanel(string userName) // vlt später noch die Punkte und ob er Sub oder Follower ist
         {
-            /*
-             *             <Border BorderThickness="2" BorderBrush="DarkBlue" Margin="1,3,0,0">
-                        <StackPanel Orientation="Horizontal" Height="30"  >
-                            <Label Content="Username"/>
-                                <Label Margin="440,0,0,0" Content="OnlineTime"/>
-                            </StackPanel>
-                        </Border>
-             */
             Dispatcher.Invoke(() =>
             {
-                Border border = new Border();
-                border.BorderThickness = new Thickness(1);
-                border.BorderBrush = new SolidColorBrush(Colors.DarkBlue);
-                border.Margin = new Thickness(1,3,0,0);
-                StackPanel panel = new StackPanel();
-                panel.Orientation = Orientation.Horizontal;
-                panel.Height = 30;
-                panel.Margin = new Thickness(1,1,0,0);
-                Label lb_Username = new Label();
-                lb_Username.Content = userName;
-                Label lb_DateTime = new Label();
-                lb_DateTime.Content = "10h";
-                lb_DateTime.Margin = new Thickness(440,0,0,0);
+                ListBoxItem item = new ListBoxItem();
+                item.Content = userName;
 
-                panel.Children.Add(lb_Username);
-                panel.Children.Add(lb_DateTime);
-
-                stackPanel_UserList.Children.Add(panel);
-                stackPanel_UserList.Children.Add(border);
+                item.BorderThickness = new Thickness(1);
+                item.Height = 30;
+                item.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
+                if (lbox_UserListBox.Items.Count == 0)
+                    item.Margin = new Thickness(0,2,0,0);
+               lbox_UserListBox.Items.Add(item);
             });
         }
     }

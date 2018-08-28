@@ -11,7 +11,7 @@ namespace TwitchBot
 
 
 
-    public class IcrTwitch
+    public class TwitchBotClient
     {
 
         private ConnectionCredentials credentials;
@@ -21,7 +21,7 @@ namespace TwitchBot
         private string _userName;
         private string _channelName;
 
-        public IcrTwitch(string ip, int port, string userName, string password, string channelName)
+        public TwitchBotClient(string userName, string password, string channelName)
         {
             credentials = new ConnectionCredentials(userName,password);
             client = new TwitchClient();
@@ -33,7 +33,6 @@ namespace TwitchBot
             client.OnWhisperReceived += onWhisperReceived;
             client.OnNewSubscriber += onNewSubscriber;
             client.OnConnected += Client_OnConnected;
-
         }
         private void Client_OnConnected(object sender, OnConnectedArgs e)
         {
