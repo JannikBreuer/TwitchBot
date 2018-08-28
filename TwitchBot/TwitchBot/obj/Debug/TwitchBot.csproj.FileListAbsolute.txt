@@ -1,0 +1,17 @@
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\MainWindow.g.cs
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\App.g.cs
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot_MarkupCompile.cache
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot_MarkupCompile.lref
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\bin\Debug\TwitchBot.exe.config
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\bin\Debug\TwitchBot.exe
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\bin\Debug\TwitchBot.pdb
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\MainWindow.baml
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.g.resources
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.Properties.Resources.resources
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csproj.GenerateResource.cache
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csproj.CoreCompileInputs.cache
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.exe
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.pdb
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csprojAssemblyReference.cache
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\Twitch.g.cs
+C:\Users\j.breuer\source\repos\TwitchBot\TwitchBot\obj\Debug\Twitch.baml
