@@ -20,35 +20,38 @@ namespace TwitchBot
     /// </summary>
     public partial class TwitchBotWin : Window
     {
+        private string imagePfadSelectedBtn = @"D:\GitHub\TwitchBot\TwitchBot\UserListBackGroundImageSelected.jpg";
+        private string imagePfadBtn = @"D:\GitHub\TwitchBot\TwitchBot\UserListBackroundNormal.jpg";
+
+        public TwitchApi apiClass = new TwitchApi();
+        public IcrTwitch twitchClient = new IcrTwitch("irc.twitch.tv", 6667,
+                                                    "jnkstv", "oauth:9fxcnrikonai5w0vgt0ggaz6bj2pwy", "sentiolive");
         public static TwitchBotWin winRef;
-        private TwitchMessage messageClass;
         public TwitchBotWin()
         {
             InitializeComponent();
             winRef = this;
-            messageClass = new TwitchMessage();
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
-            messageClass.DisplayMessageOnScreen("Jannik", "Hallo Hallo", "22.08.12");
             AddNewUserToStackPanel("Jannik", "Test");
         }
         private void grid_MouseEnter(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")
             {
-                img_UserList.Source = new BitmapImage(new Uri(@"C:\Users\j.breuer\source\repos\TwitchBot\UserListBackGroundImageSelected.jpg"));
+                img_UserList.Source = new BitmapImage(new Uri(imagePfadSelectedBtn));
                 btn_UserList.Background = ConvertHexIntoBrush("#FF37568B");
                 grid_Button1.Background = ConvertHexIntoBrush("#FF37568B");
             }
             else if ((sender as Grid).Name == "grid_Button2")
             {
-                img_Messages.Source = new BitmapImage(new Uri(@"C:\Users\j.breuer\source\repos\TwitchBot\UserListBackGroundImageSelected.jpg"));
+                img_Messages.Source = new BitmapImage(new Uri(imagePfadSelectedBtn));
                 btn_Messages.Background = ConvertHexIntoBrush("#FF37568B");
                 grid_Button2.Background = ConvertHexIntoBrush("#FF37568B");
             }
             else if ((sender as Grid).Name == "grid_Button3")
             {
-                img_Roulette.Source = new BitmapImage(new Uri(@"C:\Users\j.breuer\source\repos\TwitchBot\UserListBackGroundImageSelected.jpg"));
+                img_Roulette.Source = new BitmapImage(new Uri(imagePfadSelectedBtn));
                 btn_Roulette.Background = ConvertHexIntoBrush("#FF37568B");
                 grid_Button3.Background = ConvertHexIntoBrush("#FF37568B");
             }
@@ -57,19 +60,19 @@ namespace TwitchBot
         {
             if ((sender as Grid).Name == "grid_Button1")
             {
-                img_UserList.Source = new BitmapImage(new Uri(@"C:\Users\j.breuer\source\repos\TwitchBot\UserListBackroundNormal.jpg"));
+                img_UserList.Source = new BitmapImage(new Uri(imagePfadBtn));
                 btn_UserList.Background = ConvertHexIntoBrush("#FF3F3F46");
                 grid_Button1.Background = ConvertHexIntoBrush("#FF3F3F46");
             }
             else if ((sender as Grid).Name == "grid_Button2")
             {
-                img_Messages.Source = new BitmapImage(new Uri(@"C:\Users\j.breuer\source\repos\TwitchBot\UserListBackroundNormal.jpg"));
+                img_Messages.Source = new BitmapImage(new Uri(imagePfadBtn));
                 btn_Messages.Background = ConvertHexIntoBrush("#FF3F3F46");
                 grid_Button2.Background = ConvertHexIntoBrush("#FF3F3F46");
             }
             else if ((sender as Grid).Name == "grid_Button3")
             {
-                img_Roulette.Source = new BitmapImage(new Uri(@"C:\Users\j.breuer\source\repos\TwitchBot\UserListBackroundNormal.jpg"));
+                img_Roulette.Source = new BitmapImage(new Uri(imagePfadBtn));
                 btn_Roulette.Background = ConvertHexIntoBrush("#FF3F3F46");
                 grid_Button3.Background = ConvertHexIntoBrush("#FF3F3F46");
             }
@@ -127,13 +130,13 @@ namespace TwitchBot
 
                 Label lb_Username = new Label();
                 lb_Username.Content = username;
+                lb_Username.Foreground = new SolidColorBrush(Colors.Red);
                 Label lb_Date = new Label();
                 lb_Date.Content = date;
                 lb_Username.HorizontalAlignment = HorizontalAlignment.Right;
-                lb_Username.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
                 lb_Date.HorizontalAlignment = HorizontalAlignment.Left;
                 lb_Date.Margin = new Thickness(465, 0, 0, 0);
-                lb_Date.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
+                lb_Date.Foreground = new SolidColorBrush(Colors.Red);
 
                 panel.Children.Add(lb_Username);
                 panel.Children.Add(lb_Date);
@@ -172,7 +175,7 @@ namespace TwitchBot
                 panel.Height = 30;
                 panel.Margin = new Thickness(1,1,0,0);
                 Label lb_Username = new Label();
-                lb_Username.Content = "Username";
+                lb_Username.Content = userName;
                 Label lb_DateTime = new Label();
                 lb_DateTime.Content = "10h";
                 lb_DateTime.Margin = new Thickness(440,0,0,0);

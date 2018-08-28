@@ -1,60 +1,71 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.IO;
+using TwitchLib;
+using TwitchLib.Client;
+using TwitchLib.Client.Models;
+using TwitchLib.Client.Events;
 
 namespace TwitchBot
 {
 
-    public delegate EventHandler OwnEventHandler(object sender, EventArgs e);
+
 
     public class IcrTwitch
     {
-        private TcpClient _tcpClient;
-        private StreamReader _inputStream;
-        private StreamWriter _outputStream;
 
+        private ConnectionCredentials credentials;
+
+
+        private TwitchClient client;
         private string _userName;
         private string _channelName;
 
         public IcrTwitch(string ip, int port, string userName, string password, string channelName)
         {
-            try
-            {
-                _tcpClient = new TcpClient(ip, port);
-                _inputStream = new StreamReader(_tcpClient.GetStream());
-                _outputStream = new StreamWriter(_tcpClient.GetStream());
+            credentials = new ConnectionCredentials(userName,password);
+            client = new TwitchClient();
+            client.Initialize(credentials, channelName);
+            client.Connect();
 
-                _channelName = channelName;
-                _userName = userName;
+            client.OnJoinedChannel += onJoinedChannel;
+            client.OnMessageReceived += onMessageReceived;
+            client.OnWhisperReceived += onWhisperReceived;
+            client.OnNewSubscriber += onNewSubscriber;
+            client.OnConnected += Client_OnConnected;
 
-                _outputStream.Write("PASS " + password);
-                _outputStream.Write("USER " + userName);
-                _outputStream.Write("JOIN #" + channelName);
-
-
-                _outputStream.Flush();  //Send stream to the Server
-
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Ein Fehler ist bei dem Verbindungsaufbau aufgetreten: \n" + e.Message);
-            }
         }
-        public void SendMessage(string message)
+        private void Client_OnConnected(object sender, OnConnectedArgs e)
         {
-            if (_outputStream != null)
-            {
-                try
-                {
-                    _outputStream.Write(":" + _userName + "!" + _userName + "@" + _userName +
-                ".tmi.twitch.tv PRIVMSG #" + _channelName + " :" + message);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Fehler beim senden einer Naricht.\n Exception: " + e.Message);
-                }
-            }
+            Console.WriteLine($"Connected to {e.AutoJoinChannel}");
+
+            Console.WriteLine(client.JoinedChannels[0]);
+
+            TwitchBotWin.winRef.apiClass.DisplayUserListOnScreen();
+
+           // client.SendMessage(client.GetJoinedChannel(e.AutoJoinChannel), "Das ist ein Bot");
         }
+        private void onJoinedChannel(object sender, OnJoinedChannelArgs e)
+        {
+           
+        }
+        public void WriteMessage(string message)
+        {
+            client.SendMessage(client.GetJoinedChannel("SentioLIVE"), message);
+        }
+        private void onMessageReceived(object sender, OnMessageReceivedArgs e)
+        {
+            TwitchBotWin.winRef.AddNewMessageToStackPanel(e.ChatMessage.Username, e.ChatMessage.Message, DateTime.Now.ToString("HH:mm"));
+            Console.WriteLine();
+        }
+        private void onWhisperReceived(object sender, OnWhisperReceivedArgs e)
+        {
+        
+        }
+        private void onNewSubscriber(object sender, OnNewSubscriberArgs e)
+        {
+     
+        }
+
     }
 }

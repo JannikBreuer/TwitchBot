@@ -27,6 +27,7 @@ namespace TwitchBot
 
         private void btn_Login_Click(object sender, RoutedEventArgs e)
         {
+            Login();
             var win = new TwitchBotWin();
             win.Show();
             this.Close();
@@ -38,15 +39,13 @@ namespace TwitchBot
         }
         private void Login()
         {
-            if (tb_ChannelName.Text.Length == 0)
-                return;
-            if (tb_Passwort.Text.Length == 0)
-                return;
-            if (tb_UserName.Text.Length == 0)
-                return;
+            //if (tb_ChannelName.Text.Length == 0)
+            //    return;
+            //if (tb_Passwort.Text.Length == 0)
+            //    return;
+            //if (tb_UserName.Text.Length == 0)
+            //    return;
 
-            IcrTwitch twitchAccount = new IcrTwitch("icr.twitch", 6667,
-                                                    tb_UserName.Text, tb_Passwort.Text, tb_ChannelName.Text);
 
         }
     }
