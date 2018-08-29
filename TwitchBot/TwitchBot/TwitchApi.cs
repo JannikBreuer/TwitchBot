@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 using TwitchLib.Api.Models.Undocumented;
@@ -15,21 +16,23 @@ namespace TwitchBot
 {
     public class TwitchApi
     {
-        private UserListClass userListClass;
         private static TwitchAPI api;
 
 
         public TwitchApi()
         {
-            userListClass = new UserListClass();
             api = new TwitchAPI();
-            api.Settings.ClientId = "opktuhj4e5cyop3gycd0jwssv6evvz";
-            api.Settings.AccessToken = "oauth: 9fxcnrikonai5w0vgt0ggaz6bj2pwy";
+            
         }
         public void DisplayUserListOnScreen()
         {
            var chatters =  Task.Run(() => api.Undocumented.GetChattersAsync("SentioLive"));
-            userListClass.DisplayUserList(chatters.Result);
+            TwitchBotWin.winRef.GetUserListClass().DisplayUserList(chatters.Result);
+        }
+        private void SetClientIDAndAcessToken()
+        {
+            api.Settings.ClientId = File.ReadAllText(@"C:\Users\j.breuer\Documents\Pw\TwtichClientId.txt");
+            api.Settings.AccessToken = File.ReadAllText(@"C:\Users\j.breuer\Documents\Pw\TwitchOAuthToken.txt");
         }
     }
 }

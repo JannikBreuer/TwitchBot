@@ -8,9 +8,6 @@ using TwitchLib.Client.Events;
 
 namespace TwitchBot
 {
-
-
-
     public class TwitchBotClient
     {
 
@@ -23,6 +20,9 @@ namespace TwitchBot
 
         public TwitchBotClient(string userName, string password, string channelName)
         {
+            _userName = userName;
+            _channelName = channelName;
+
             credentials = new ConnectionCredentials(userName,password);
             client = new TwitchClient();
             client.Initialize(credentials, channelName);
@@ -33,14 +33,29 @@ namespace TwitchBot
             client.OnWhisperReceived += onWhisperReceived;
             client.OnNewSubscriber += onNewSubscriber;
             client.OnConnected += Client_OnConnected;
+            client.OnBeingHosted += Client_OnBeingHosted;
+            client.OnReSubscriber += Client_OnReSubscriber;
+
+            //TwitchLib.Client.Internal.Rfc2812.Kick() ;
         }
+
+        private void Client_OnReSubscriber(object sender, OnReSubscriberArgs e)
+        {
+
+        }
+
+        private void Client_OnBeingHosted(object sender, OnBeingHostedArgs e)
+        {
+            //e.BeingHostedNotification.HostedByChannel
+        }
+
         private void Client_OnConnected(object sender, OnConnectedArgs e)
         {
             Console.WriteLine($"Connected to {e.AutoJoinChannel}");
 
             Console.WriteLine(client.JoinedChannels[0]);
 
-            TwitchBotWin.winRef.apiClass.DisplayUserListOnScreen();
+            TwitchBotWin.winRef.GetApiClass().DisplayUserListOnScreen();
 
            // client.SendMessage(client.GetJoinedChannel(e.AutoJoinChannel), "Das ist ein Bot");
         }
@@ -55,7 +70,6 @@ namespace TwitchBot
         private void onMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             TwitchBotWin.winRef.AddNewMessageToStackPanel(e.ChatMessage.Username, e.ChatMessage.Message, DateTime.Now.ToString("HH:mm"));
-            Console.WriteLine();
         }
         private void onWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {

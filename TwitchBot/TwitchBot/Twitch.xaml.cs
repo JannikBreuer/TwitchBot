@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,15 @@ namespace TwitchBot
     /// </summary>
     public partial class TwitchBotWin : Window
     {
-        private string imagePfadSelectedBtn = @"D:\GitHub\TwitchBot\TwitchBot\UserListBackGroundImageSelected.jpg";
-        private string imagePfadBtn = @"D:\GitHub\TwitchBot\TwitchBot\UserListBackroundNormal.jpg";
+        private string imagePfadSelectedBtn = @".\Resources\UserListBackGroundImageSelected.jpg";
+        private string imagePfadBtn = @".\Resources\UserListBackGroundNormal.jpg";
 
-        public TwitchApi apiClass = new TwitchApi();
-        public TwitchBotClient twitchClient = new TwitchBotClient("jnkstv", "oauth:9fxcnrikonai5w0vgt0ggaz6bj2pwy", "sentiolive");
+
+        private UserListClass userListClass = new UserListClass();
+        private TwitchApi apiClass = new TwitchApi();
+        private TwitchBotClient twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\j.breuer\Documents\Pw\TwitchOAuthToken.txt") , "sentiolive");
+
+
         public static TwitchBotWin winRef;
         public TwitchBotWin()
         {
@@ -33,6 +38,22 @@ namespace TwitchBot
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
         }
+        #region get + setter
+        public TwitchApi GetApiClass()
+        {
+            return this.apiClass;
+        }
+        public UserListClass GetUserListClass()
+        {
+            return this.userListClass;
+        }
+        public TwitchBotClient GetTwitchBotClient()
+        {
+            return this.twitchClient;
+        }
+        #endregion
+        #region UiEvents
+
         private void grid_MouseEnter(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")
@@ -95,6 +116,7 @@ namespace TwitchBot
         {
             //Refresh UserList
         }
+        #endregion
         private Brush ConvertHexIntoBrush(string hexCode)
         {
             var converter = new System.Windows.Media.BrushConverter();
@@ -138,19 +160,39 @@ namespace TwitchBot
                 stackPanel_Message.Children.Add(lb_Message);
             });
         }
+        //Grapic Part
         public void AddNewUserToStackPanel(string userName) // vlt später noch die Punkte und ob er Sub oder Follower ist
         {
             Dispatcher.Invoke(() =>
             {
-                ListBoxItem item = new ListBoxItem();
-                item.Content = userName;
+                ListBoxItem lb_ItemUserName = new ListBoxItem();
+                lb_ItemUserName.Content = userName;
 
-                item.BorderThickness = new Thickness(1);
-                item.Height = 30;
-                item.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
-                if (lbox_UserListBox.Items.Count == 0)
-                    item.Margin = new Thickness(0,2,0,0);
-               lbox_UserListBox.Items.Add(item);
+                lb_ItemUserName.BorderThickness = new Thickness(1);
+                lb_ItemUserName.Height = 30;
+                lb_ItemUserName.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
+
+                Image kickImage = new Image();
+                kickImage.Source = new BitmapImage(new Uri(@".\Resource\KickUser.png"));
+                kickImage.Height = 30;
+
+                Image timeOutImage = new Image();
+                timeOutImage.Source = new BitmapImage(new Uri(@".\Resource\timeOut.png"));
+                timeOutImage.Height = 30;
+
+                Image informationImage = new Image();
+                timeOutImage.Source = new BitmapImage(new Uri(@".\Resource\timeOut.png"));
+                timeOutImage.Height = 30;
+
+                Image bannImage = new Image();
+                bannImage.Source = new BitmapImage(new Uri(@".\Resource\timeOut.png"));
+                bannImage.Height = 30;
+
+                lbox_BannUser.Items.Add(bannImage);
+                lbox_Information.Items.Add(informationImage);
+                lbox_TimeOutUser.Items.Add(timeOutImage);
+                lbox_KickUser.Items.Add(kickImage);
+                lbox_Username.Items.Add(lbox_Username);
             });
         }
     }
