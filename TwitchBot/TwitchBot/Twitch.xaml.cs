@@ -55,7 +55,7 @@ namespace TwitchBot
         #region UiEvents
         private void Bannbtn_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(lbox_BannUser.SelectedIndex);
+           
         }
         private void TimeOutbtn_Click(object sender, RoutedEventArgs e)
         {
@@ -205,45 +205,11 @@ namespace TwitchBot
                 lb_ItemUserName.BorderThickness = new Thickness(1);
                 lb_ItemUserName.Height = 30;
                 lb_ItemUserName.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
-
-                Button kickBtn = new Button();
-                Image kickImage = new Image();
-                kickImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\KickUser.png"));
-                kickBtn.Content = kickImage;
-                kickBtn.Height = 30;
-                kickBtn.Width = 40;
-                
-
-                Button timeOutBtn = new Button();
-                Image timeOutImage = new Image();
-                timeOutImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\timeOut.png"));
-                timeOutBtn.Content =  timeOutImage;
-                timeOutBtn.Height = 30;
-                timeOutBtn.Width = 40;
-
-                Button informationBtn = new Button();
-                Image informationImage = new Image();
-                informationImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\timeOut.png"));
-                informationBtn.Content = informationImage;
-                informationBtn.Height = 30;
-                informationBtn.Width = 40;
-
-                Button bannBtn = new Button();
-                Image bannBtnImage = new Image();
-                bannBtnImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\timeOut.png"));
-                bannBtn.Content = bannBtnImage;
-                bannBtn.Height = 30;
-                bannBtn.Width = 40;
-
-                bannBtn.Click += Bannbtn_Click;
-                kickBtn.Click += KickBtn;
-                timeOutBtn.Click += TimeOutbtn_Click;
-                informationBtn.Click += Informationbtn_Click;
-
-                lbox_BannUser.Items.Add(bannBtn);
-                lbox_Information.Items.Add(informationBtn);
-                lbox_TimeOutUser.Items.Add(timeOutBtn);
-                lbox_KickUser.Items.Add(kickBtn);
+                lb_ItemUserName.ContextMenu = new ContextMenu();
+                lb_ItemUserName.ContextMenu.Items.Add("Kick User");
+                lb_ItemUserName.ContextMenu.Items.Add("Bann User");
+                lb_ItemUserName.ContextMenu.Items.Add("TimeOut User");
+                lb_ItemUserName.ContextMenu.Items.Add("Info about User");
                 lbox_Username.Items.Add(lb_ItemUserName);
             });
         }

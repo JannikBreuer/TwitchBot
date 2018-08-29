@@ -157,3 +157,4 @@ D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csproj.CoreCompileIn
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csproj.CopyComplete
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.exe
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.pdb
+D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csprojAssemblyReference.cache
