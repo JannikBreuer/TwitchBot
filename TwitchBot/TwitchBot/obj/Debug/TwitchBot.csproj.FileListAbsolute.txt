@@ -142,7 +142,6 @@ D:\GitHub\TwitchBot\TwitchBot\TwitchBot\bin\Debug\Newtonsoft.Json.xml
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\bin\Debug\Serilog.xml
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\bin\Debug\Serilog.Extensions.Logging.xml
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.csprojAssemblyReference.cache
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\TwitchBot.exe.config
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\MainWindow.g.cs
 D:\GitHub\TwitchBot\TwitchBot\TwitchBot\obj\Debug\Twitch.g.cs

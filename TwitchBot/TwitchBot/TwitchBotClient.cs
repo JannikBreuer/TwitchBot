@@ -14,7 +14,7 @@ namespace TwitchBot
         private ConnectionCredentials credentials;
 
 
-        private TwitchClient client;
+        private readonly TwitchClient client;
         private string _userName;
         private string _channelName;
 
@@ -35,8 +35,6 @@ namespace TwitchBot
             client.OnConnected += Client_OnConnected;
             client.OnBeingHosted += Client_OnBeingHosted;
             client.OnReSubscriber += Client_OnReSubscriber;
-
-            //TwitchLib.Client.Internal.Rfc2812.Kick() ;
         }
 
         private void Client_OnReSubscriber(object sender, OnReSubscriberArgs e)

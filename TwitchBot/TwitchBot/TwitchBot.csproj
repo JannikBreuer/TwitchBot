@@ -161,6 +161,7 @@
       <DependentUpon>Twitch.xaml</DependentUpon>
     </Compile>
     <Compile Include="TwitchApi.cs" />
+    <Compile Include="TwitchSubClass.cs" />
     <Compile Include="UserList.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -197,6 +198,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

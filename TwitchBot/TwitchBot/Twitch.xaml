@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwitchBot"
         mc:Ignorable="d"
-        Title="TwtichWin" Height="787.689" Width="1140.555" WindowStyle="None">
+        Title="TwtichWin" Height="787.689" Width="1110.555" WindowStyle="None">
 
     <Window.Resources>
         <Style x:Key="MyButton" TargetType="Button">
@@ -28,59 +28,53 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Background="#FF3F3F46">
             <Grid HorizontalAlignment="Left" MinWidth="210" Background="#FF3F3F46" Margin="0,10,0,0">
                 <StackPanel>
-                    <Image x:Name="img_Icon" Source=".\Resources\icon2.png" Height="70" Margin="0,10,10.6,0"/>
+                    <Image x:Name="img_Icon" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\icon2.png" Height="70" Margin="0,10,10.6,0"/>
                     <Grid Name="grid_Button1" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
                         <Button Name="btn_UserList" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132"  Style="{StaticResource MyButton}" Click="btn_ClickShowUserListGrid"/>
-                        <Image Name="img_UserList" Margin="0,0,0,9.8" Height="60" Width="60" Source=".\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Image Name="img_UserList" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                     <Grid Name="grid_Button2" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
-                        <Button Name="btn_Messages" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Messages" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132" Style="{StaticResource MyButton}" Click="btn_ClickShowMessageGrid"/>
-                        <Image  Name="img_Messages" Margin="0,0,0,9.8" Height="60" Width="60" Source=".\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Button Name="btn_Messages" Height="61" Margin="77,0,1,0" Background="#FF3F3F46" BorderThickness="0" Content="Messages" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" VerticalAlignment="Bottom" Style="{StaticResource MyButton}" Click="btn_ClickShowMessageGrid"/>
+                        <Image  Name="img_Messages" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                     <Grid Name="grid_Button3" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
                         <Button Name="btn_Roulette" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132" Style="{StaticResource MyButton}"/>
-                        <Image  Name="img_Roulette" Margin="0,0,0,9.8" Height="60" Width="60" Source=".\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Image  Name="img_Roulette" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                 </StackPanel>
             </Grid>
-            <Grid  Background="#FF796F6F" MinWidth="920" Margin="0,10,0,0" HorizontalAlignment="Left">
-                <Grid Name="grid_UserList" Visibility="Visible" HorizontalAlignment="Left" MinWidth="920">
+            <Grid  Background="#FF796F6F" MinWidth="920" Margin="0,10,0,0" HorizontalAlignment="Left" Width="871">
+                <Grid x:Name="grid_UserList" HorizontalAlignment="Left" MinWidth="920" Visibility="Visible">
 
                     <Grid VerticalAlignment="Bottom" Height="28" Background="#FF3F3F46" HorizontalAlignment="Left" MinWidth="920">
-                        <Button Name="btn_RefreshUserList" Margin="0,0,10,0" Background="#FF3F3F46" BorderThickness="0" Click="btn_ClickRefresh" HorizontalAlignment="Left">
-                            <Image Source="C:\Users\j.breuer\Documents\GitHub\TwitchBot\TwitchBot\refresh.png"/>
+                        <Button x:Name="btn_RefreshUserList" Margin="0,0,10,0" Background="#FF3F3F46" BorderThickness="0" Click="btn_ClickRefresh" HorizontalAlignment="Left">
+                            <Image Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\refresh.png"/>
                         </Button>
                         <Label Margin="30,0,0,0" Content="Filter:"/>
                         <TextBox Width="200"  HorizontalAlignment="Left" Margin="70,0,0,0" />
                     </Grid>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0.2" >
-                        <ListBox Name="lbox_Username" HorizontalAlignment="Left" MinWidth="745" Background="#FF7F7F85" >
-                            <ListBoxItem Content="Test" Height="30" Foreground="WhiteSmoke"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox x:Name="lbox_Username" HorizontalAlignment="Left" MinWidth="700" Background="#FF7F7F85" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0" Width="703">
                         </ListBox>
-                        <ListBox Name="lbox_KickUser" MinWidth="30" Background="#FF7F7F85"   >
-                            <Image Source=".\Resources\KickUser.png" Width="30"/>
+                        <ListBox x:Name="lbox_KickUser" MinWidth="30" Background="#FF7F7F85" Width="48" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0">
                         </ListBox>
-                        <ListBox Name="lbox_TimeOutUser" MinWidth="30" Background="#FF7F7F85" >
-                            <ListBoxItem Content="TimeOut" Height="30"/>
+                        <ListBox x:Name="lbox_TimeOutUser" MinWidth="30" Background="#FF7F7F85" Width="48" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0">
                         </ListBox>
-                        <ListBox Name="lbox_BannUser" MinWidth="30" Background="#FF7F7F85"  >
-                            <ListBoxItem Content="Bann" Height="30"/>
+                        <ListBox x:Name="lbox_BannUser" MinWidth="30" Background="#FF7F7F85" Width="48" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0">
                         </ListBox>
-                        <ListBox Name="lbox_Information" MinWidth="30" Background="#FF7F7F85" >
-                            <ListBoxItem Content="Info" Height="30"/>
+                        <ListBox x:Name="lbox_Information" MinWidth="30" Background="#FF7F7F85" Width="48" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0">
                         </ListBox>
                     </StackPanel>
                 </Grid>
-                <Grid Name="grid_Message" MinWidth="920" Margin="0,10,0,0" HorizontalAlignment="Left">
-                    <StackPanel Name="stackPanel_Message" Margin="0,10,0,-10">
-
-                    </StackPanel>
+                <Grid x:Name="grid_Message" MinWidth="920" Margin="0,10,0,30" HorizontalAlignment="Left"  Visibility="Collapsed" >
+                    <StackPanel x:Name="stackPanel_Message" Margin="0,10,0,-10"/>
                 </Grid>
             </Grid>
         </StackPanel>
+
         <Grid VerticalAlignment="Top" Margin="0,-4,0,0" Height="24" Background="#FF1686FF" >
             <Button Content="X" FontSize="19" Width="25"  FontWeight="Medium"  Foreground="White" Background="#FF1686FF" Margin="749,0,9.6,0" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             <Button Content="-"   Width="25" FontSize="16"  FontWeight="Heavy" Foreground="White"  Background="#FF1686FF" Margin="706,0,62.6,0" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>

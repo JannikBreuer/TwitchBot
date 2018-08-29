@@ -18,7 +18,7 @@ namespace TwitchBot
             foreach (var user in list)
             {
 
-               // TwitchBotWin.winRef.AddNewUserToStackPanel(user.Username, user.UserType);
+                TwitchBotWin.winRef.AddNewUserToStackPanel(user.Username);
             }
             // TwitchBotWin.winRef.twitchClient.WriteMessage("Aktuell sind " + (list.Count + 1) + " User online!");
         }

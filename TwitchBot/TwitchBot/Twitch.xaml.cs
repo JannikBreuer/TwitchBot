@@ -21,13 +21,13 @@ namespace TwitchBot
     /// </summary>
     public partial class TwitchBotWin : Window
     {
-        private string imagePfadSelectedBtn = @".\Resources\UserListBackGroundImageSelected.jpg";
-        private string imagePfadBtn = @".\Resources\UserListBackGroundNormal.jpg";
+        private string imagePfadSelectedBtn = @"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackGroundImageSelected.jpg";
+        private string imagePfadBtn = @"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg";
 
 
         private UserListClass userListClass = new UserListClass();
         private TwitchApi apiClass = new TwitchApi();
-        private TwitchBotClient twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\j.breuer\Documents\Pw\TwitchOAuthToken.txt") , "sentiolive");
+        private TwitchBotClient twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt") , "SentioLIVE");
 
 
         public static TwitchBotWin winRef;
@@ -53,6 +53,40 @@ namespace TwitchBot
         }
         #endregion
         #region UiEvents
+        private void Bannbtn_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(lbox_BannUser.SelectedIndex);
+        }
+        private void TimeOutbtn_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Timeout user");
+        }
+        private void KickBtn(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("");
+        }
+        private void Informationbtn_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        //private void tblock_Message_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    if (string.IsNullOrWhiteSpace(tblock_Message.Text))
+        //    {
+        //        tblock_Message.Text = "Type a Message for the....";
+        //        tblock_Message.Foreground = new SolidColorBrush(Colors.LightGray);
+        //    }
+        //}
+
+        //private void tblock_Message_GotFocus(object sender, RoutedEventArgs e)
+        //{
+        //    if (tblock_Message.Text == "Type a Message for the....")
+        //    {
+        //        tblock_Message.Text = "";
+        //        tblock_Message.Foreground = new SolidColorBrush(Colors.Black);
+        //    }
+        //}
 
         private void grid_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -172,27 +206,45 @@ namespace TwitchBot
                 lb_ItemUserName.Height = 30;
                 lb_ItemUserName.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
 
+                Button kickBtn = new Button();
                 Image kickImage = new Image();
-                kickImage.Source = new BitmapImage(new Uri(@".\Resource\KickUser.png"));
-                kickImage.Height = 30;
+                kickImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\KickUser.png"));
+                kickBtn.Content = kickImage;
+                kickBtn.Height = 30;
+                kickBtn.Width = 40;
+                
 
+                Button timeOutBtn = new Button();
                 Image timeOutImage = new Image();
-                timeOutImage.Source = new BitmapImage(new Uri(@".\Resource\timeOut.png"));
-                timeOutImage.Height = 30;
+                timeOutImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\timeOut.png"));
+                timeOutBtn.Content =  timeOutImage;
+                timeOutBtn.Height = 30;
+                timeOutBtn.Width = 40;
 
+                Button informationBtn = new Button();
                 Image informationImage = new Image();
-                timeOutImage.Source = new BitmapImage(new Uri(@".\Resource\timeOut.png"));
-                timeOutImage.Height = 30;
+                informationImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\timeOut.png"));
+                informationBtn.Content = informationImage;
+                informationBtn.Height = 30;
+                informationBtn.Width = 40;
 
-                Image bannImage = new Image();
-                bannImage.Source = new BitmapImage(new Uri(@".\Resource\timeOut.png"));
-                bannImage.Height = 30;
+                Button bannBtn = new Button();
+                Image bannBtnImage = new Image();
+                bannBtnImage.Source = new BitmapImage(new Uri(@"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\timeOut.png"));
+                bannBtn.Content = bannBtnImage;
+                bannBtn.Height = 30;
+                bannBtn.Width = 40;
 
-                lbox_BannUser.Items.Add(bannImage);
-                lbox_Information.Items.Add(informationImage);
-                lbox_TimeOutUser.Items.Add(timeOutImage);
-                lbox_KickUser.Items.Add(kickImage);
-                lbox_Username.Items.Add(lbox_Username);
+                bannBtn.Click += Bannbtn_Click;
+                kickBtn.Click += KickBtn;
+                timeOutBtn.Click += TimeOutbtn_Click;
+                informationBtn.Click += Informationbtn_Click;
+
+                lbox_BannUser.Items.Add(bannBtn);
+                lbox_Information.Items.Add(informationBtn);
+                lbox_TimeOutUser.Items.Add(timeOutBtn);
+                lbox_KickUser.Items.Add(kickBtn);
+                lbox_Username.Items.Add(lb_ItemUserName);
             });
         }
     }

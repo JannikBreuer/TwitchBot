@@ -10,29 +10,31 @@ using TwitchLib.Api;
 using TwitchLib.Api.Extensions;
 using TwitchLib.Api.Models;
 using TwitchLib.Api.Models.v5.Channels;
+using TwitchLib.PubSub.Events;
 
 
 namespace TwitchBot
 {
     public class TwitchApi
     {
-        private static TwitchAPI api;
+        private readonly TwitchAPI api;
 
 
         public TwitchApi()
         {
             api = new TwitchAPI();
-            
+            SetClientIDAndAcessToken();
         }
         public void DisplayUserListOnScreen()
         {
-           var chatters =  Task.Run(() => api.Undocumented.GetChattersAsync("SentioLive"));
+           var chatters =  Task.Run(() => api.Undocumented.GetChattersAsync("SentioLIVE"));
             TwitchBotWin.winRef.GetUserListClass().DisplayUserList(chatters.Result);
+
         }
         private void SetClientIDAndAcessToken()
         {
-            api.Settings.ClientId = File.ReadAllText(@"C:\Users\j.breuer\Documents\Pw\TwtichClientId.txt");
-            api.Settings.AccessToken = File.ReadAllText(@"C:\Users\j.breuer\Documents\Pw\TwitchOAuthToken.txt");
+            api.Settings.ClientId = File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwtichClientId.txt");
+            api.Settings.AccessToken = File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt");
         }
     }
 }
