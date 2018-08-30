@@ -21,13 +21,13 @@ namespace TwitchBot
     /// </summary>
     public partial class TwitchBotWin : Window
     {
-        private string imagePfadSelectedBtn = @"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackGroundImageSelected.jpg";
-        private string imagePfadBtn = @"D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg";
+        private string imagePfadSelectedBtn = @"D:\GitHub\TwitchBot\Resources\UserListBackGroundImageSelected.jpg";
+        private string imagePfadBtn = @"D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg";
 
 
-        private UserListClass userListClass = new UserListClass();
-        private TwitchApi apiClass = new TwitchApi();
-        private TwitchBotClient twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt") , "SentioLIVE");
+        private readonly UserListClass userListClass;
+        private readonly TwitchApi apiClass;
+        private readonly TwitchBotClient twitchClient;
 
 
         public static TwitchBotWin winRef;
@@ -37,6 +37,11 @@ namespace TwitchBot
             winRef = this;
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
+            //apiClass = new TwitchApi("");
+            //twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt"), "SentioLIVE");
+            //userListClass = new UserListClass();
+
+            lbox_Username.ItemsSource = userListClass.userList;
         }
         #region get + setter
         public TwitchApi GetApiClass()
@@ -69,7 +74,6 @@ namespace TwitchBot
         {
             throw new NotImplementedException();
         }
-
         //private void tblock_Message_LostFocus(object sender, RoutedEventArgs e)
         //{
         //    if (string.IsNullOrWhiteSpace(tblock_Message.Text))
@@ -87,7 +91,6 @@ namespace TwitchBot
         //        tblock_Message.Foreground = new SolidColorBrush(Colors.Black);
         //    }
         //}
-
         private void grid_MouseEnter(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")

@@ -22,8 +22,12 @@ namespace TwitchBot
         private void Client_OnFollow(object sender, TwitchLib.PubSub.Events.OnFollowArgs e)
         {
             Console.WriteLine("The User: " + e.DisplayName + " has followed!");
+            
         }
-
+        public void IsUserSubed()
+        {
+            
+        }
         private void Client_OnPubSubServiceConnected(object sender, EventArgs e)
         {
             client.SendTopics(File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt"));

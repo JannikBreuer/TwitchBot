@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwitchBot"
         mc:Ignorable="d"
-        Title="TwtichWin" Height="783.689" Width="1108.555" WindowStyle="None">
+        Title="TwtichWin" Height="784" Width="1157" WindowStyle="None">
 
     <Window.Resources>
         <Style x:Key="MyButton" TargetType="Button">
@@ -27,45 +27,59 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <StackPanel Orientation="Horizontal" Background="#FF3F3F46">
-            <Grid HorizontalAlignment="Left" MinWidth="210" Background="#FF3F3F46" Margin="0,10,0,0">
+    <Grid Margin="0,0,0,-0.4">
+        <DockPanel  Background="#FF3F3F46" Margin="0,0,-0.2,-0.4">
+            <Grid HorizontalAlignment="Left" MinWidth="210" Background="#FF3F3F46" Margin="0,8,0,1.6">
                 <StackPanel>
-                    <Image x:Name="img_Icon" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\icon2.png" Height="70" Margin="0,10,10.6,0"/>
+                                                    
+                    <Image x:Name="img_Icon" Source="D:\GitHub\TwitchBot\Resources\icon2.png" Height="70" Margin="0,10,10.6,0"/>
                     <Grid Name="grid_Button1" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
                         <Button Name="btn_UserList" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132"  Style="{StaticResource MyButton}" Click="btn_ClickShowUserListGrid"/>
-                        <Image Name="img_UserList" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Image Name="img_UserList" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                     <Grid Name="grid_Button2" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
                         <Button Name="btn_Messages" Height="61" Margin="77,0,1,0" Background="#FF3F3F46" BorderThickness="0" Content="Messages" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" VerticalAlignment="Bottom" Style="{StaticResource MyButton}" Click="btn_ClickShowMessageGrid"/>
-                        <Image  Name="img_Messages" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Image  Name="img_Messages" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                     <Grid Name="grid_Button3" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
                         <Button Name="btn_Roulette" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132" Style="{StaticResource MyButton}"/>
-                        <Image  Name="img_Roulette" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                        <Image  Name="img_Roulette" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                 </StackPanel>
             </Grid>
-            <Grid  Background="#FF796F6F" Margin="0,10,0,0" HorizontalAlignment="Left" Width="892">
-                <Grid x:Name="grid_UserList" HorizontalAlignment="Left"  Visibility="Visible" Width="892">
-
-                    <Grid VerticalAlignment="Bottom" Height="28" Background="#FF3F3F46" HorizontalAlignment="Left" MinWidth="920" Margin="0,0,-6,0" Width="898">
+            <Grid Name="grid_Container"  Background="#FF141212" Margin="0,10,0,-0.4">
+                <Grid x:Name="grid_UserList"  Visibility="Visible" Background="#FFCE9B9B">
+                    <Grid VerticalAlignment="Bottom" Background="#FF3F3F46" Margin="0,0,-6,0" Height="30">
                         <Button x:Name="btn_RefreshUserList" Margin="0,0,10,0" Background="#FF3F3F46" BorderThickness="0" Click="btn_ClickRefresh" HorizontalAlignment="Left">
-                            <Image Source="D:\GitHub\TwitchBot\TwitchBot\TwitchBot\Resources\refresh.png"/>
+                            <Image Source="D:\GitHub\TwitchBot\Resources\refresh.png"/>
                         </Button>
-                        <Label Margin="30,0,25,0" Content="Filter:"/>
+                        <Label Margin="30,0,25,0" Content="Filter:" Height="30.4"/>
                         <TextBox Width="200"  HorizontalAlignment="Left" Margin="70,0,0,0" />
                     </Grid>
                     <StackPanel Orientation="Horizontal" Margin="0,0,-6,0">
-                        <ListBox x:Name="lbox_Username" HorizontalAlignment="Left" MinWidth="700" Background="#FF7F7F85" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0" Width="898" Margin="0,0,0,28">
+                        <ListBox ScrollViewer.CanContentScroll="False" x:Name="lbox_Username" Width="{Binding ElementName=grid_UserList, Path=ActualWidth}" Grid.IsSharedSizeScope="True" Background="#FF7F7F85" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="0" Margin="0,-2,0,30">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Width="{Binding ElementName=lbox_Username, Path=ActualWidth}" Height="{Binding ElementName=lbox_Username, Path=ActualHeight}" ScrollViewer.CanContentScroll="True" Background="#FFDD0C0C">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.2*"/>
+                                            <ColumnDefinition Width="0.2*"/>
+                                            <ColumnDefinition Width="0.2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding userName}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding userType}"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding userPoints}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                     </StackPanel>
                 </Grid>
-                <Grid x:Name="grid_Message" MinWidth="920" Margin="0,10,0,30" HorizontalAlignment="Left"  Visibility="Collapsed" >
+                <Grid x:Name="grid_Message" Margin="0,10,0,30"  Visibility="Collapsed" >
                     <StackPanel x:Name="stackPanel_Message" Margin="0,10,0,-10"/>
                 </Grid>
             </Grid>
-        </StackPanel>
+        </DockPanel>
 
         <Grid VerticalAlignment="Top" Margin="0,-4,0,0" Height="24" Background="#FF1686FF" >
             <Button Content="X" FontSize="19" Width="25"  FontWeight="Medium"  Foreground="White" Background="#FF1686FF" Margin="749,0,9.6,0" BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
