@@ -22,7 +22,7 @@ namespace TwitchBot
             _userName = userName;
             _channelName = channelName;
 
-            credentials = new ConnectionCredentials("218744916", "oauth:9fxcnrikonai5w0vgt0ggaz6bj2pwy");
+            credentials = new ConnectionCredentials("", "");
             client = new TwitchClient();
             TwitchBotWin.winRef.GetUserListClass().AddUsersToList(TwitchBotWin.winRef.GetApiClass().GetFilledUserListWithAllInformation());
             client.Initialize(credentials, channelName);
