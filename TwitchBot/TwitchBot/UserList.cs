@@ -5,7 +5,7 @@ namespace TwitchBot
 {
     public class UserListClass
     {
-        public  ObservableCollection<UserEintrag> userList;
+        public  ObservableCollection<UserEintrag> userList { get; set; }
         private int currenSubsInChat;
         private int currentFollowerInChat;
 
@@ -45,7 +45,10 @@ namespace TwitchBot
         }
         public void AddUsersToList(ObservableCollection<UserEintrag> _userList)
         {
-            userList = _userList;
+            foreach (var item in _userList)
+            {
+                userList.Add(item);
+            }
         }
         
     }

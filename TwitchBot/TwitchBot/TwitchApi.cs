@@ -18,17 +18,12 @@ namespace TwitchBot
     public class TwitchApi
     {
         private readonly TwitchAPI api;
-        private string channelId;
+        private string channelId = "95745125";
 
-        public TwitchApi(string channelID)
+        public TwitchApi()
         {
             api = new TwitchAPI();
             SetClientIDAndAcessToken();
-            channelId = channelID;
-        }
-        public void GetIDOfChannel()
-        {
-
         }
         public bool CheckIfUserIsSubed(string userID)
         {
@@ -63,14 +58,14 @@ namespace TwitchBot
             var chatters = Task.Run(() => api.Undocumented.GetChattersAsync("SentioLIVE").Result);
             return chatters.Result;
         }
-        public ObservableCollection<UserEintrag> CheckIfUserIsFollower(ObservableCollection<UserEintrag> userList, IFollow[] followerList)
+        public ObservableCollection<UserEintrag> CheckIfUserIsFollower(ObservableCollection<UserEintrag> userList, List<ChannelFollow> followerList)
         {
             int followerCounter = 0;
             foreach (var follower in followerList)
             {
                 foreach (var userInChat in userList)
                 {
-                    if (follower.User.DisplayName == userInChat.userName)
+                    if (follower.User.Name == userInChat.userName)
                     {
                         if (userInChat.userType == "Subscriber")
                         {
@@ -79,40 +74,50 @@ namespace TwitchBot
                         }
                         userInChat.userType = "Follower";
                         followerCounter++;
+                        break;
                     }
                 }
                 if (followerCounter == userList.Count)
+                {
+                    TwitchBotWin.winRef.GetUserListClass().SetFollowerCount(followerCounter);
                     return userList;
+                }
             }
+            TwitchBotWin.winRef.GetUserListClass().SetFollowerCount(followerCounter);
             return userList;
         }
-        public ObservableCollection<UserEintrag> CheckIfUserIsSub(ObservableCollection<UserEintrag> userList, Subscription[] subs)       //First find all Subs and then Find the Followers which arent Subs      
+        public ObservableCollection<UserEintrag> CheckIfUserIsSub(ObservableCollection<UserEintrag> userList, List<Subscription> subs)       //First find all Subs and then Find the Followers which arent Subs      
         {
             int subsCount = 0;
             foreach (var sub in subs)
             {
                 foreach (var userInChat in userList)
                 {
-                    if (sub.User.DisplayName == userInChat.userName)
+                    if (sub.User.Name == userInChat.userName)
                     {
                         userInChat.userType = "Subscriber";
                         subsCount++;
+                        break;
                     }
                 }
                 if (subsCount == userList.Count)
+                {
+                    TwitchBotWin.winRef.GetUserListClass().SetSubCountInChat(subsCount);
                     return userList;
+                }
             }
+            TwitchBotWin.winRef.GetUserListClass().SetSubCountInChat(subsCount);
             return userList;
         }
-        public Subscription[] GetSubsOfChannel()
+        public List<Subscription> GetSubsOfChannel()
         {
-            var subsList = Task.Run(() => api.Channels.v5.GetChannelSubscribersAsync("").Result);
-            return subsList.Result.Subscriptions;
+            var subsList = Task.Run(() => api.Channels.v5.GetAllSubscribersAsync(channelId).Result);
+            return subsList.Result;
         }
-        public IFollow[] GetFollowersOfChannel()
+        public List<ChannelFollow> GetFollowersOfChannel()
         {
-            var followerList = Task.Run(() => api.Channels.v5.GetChannelFollowersAsync(channelId).Result);
-            return followerList.Result.Follows;
+            var followerList = Task.Run(() => api.Channels.v5.GetAllFollowersAsync(channelId).Result);
+            return followerList.Result;
         }
         public void SetClientIDAndAcessToken()
         {

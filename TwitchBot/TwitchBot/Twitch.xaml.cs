@@ -29,19 +29,20 @@ namespace TwitchBot
         private readonly TwitchApi apiClass;
         private readonly TwitchBotClient twitchClient;
 
+        private object lockObj = new object();
 
         public static TwitchBotWin winRef;
         public TwitchBotWin()
         {
             InitializeComponent();
             winRef = this;
+            userListClass = new UserListClass();
+            BindingOperations.EnableCollectionSynchronization(userListClass.userList, lockObj);
+            dataGrid_UserList.ItemsSource = userListClass.userList;
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
-            //apiClass = new TwitchApi("");
-            //twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt"), "SentioLIVE");
-            //userListClass = new UserListClass();
-
-            lbox_Username.ItemsSource = userListClass.userList;
+            apiClass = new TwitchApi();
+            twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt"), "SentioLIVE");
         }
         #region get + setter
         public TwitchApi GetApiClass()
@@ -198,23 +199,5 @@ namespace TwitchBot
             });
         }
         //Grapic Part
-        public void AddNewUserToStackPanel(string userName) // vlt später noch die Punkte und ob er Sub oder Follower ist
-        {
-            Dispatcher.Invoke(() =>
-            {
-                ListBoxItem lb_ItemUserName = new ListBoxItem();
-                lb_ItemUserName.Content = userName;
-
-                lb_ItemUserName.BorderThickness = new Thickness(1);
-                lb_ItemUserName.Height = 30;
-                lb_ItemUserName.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
-                lb_ItemUserName.ContextMenu = new ContextMenu();
-                lb_ItemUserName.ContextMenu.Items.Add("Kick User");
-                lb_ItemUserName.ContextMenu.Items.Add("Bann User");
-                lb_ItemUserName.ContextMenu.Items.Add("TimeOut User");
-                lb_ItemUserName.ContextMenu.Items.Add("Info about User");
-                lbox_Username.Items.Add(lb_ItemUserName);
-            });
-        }
     }
 }

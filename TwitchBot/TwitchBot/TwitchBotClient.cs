@@ -17,18 +17,19 @@ namespace TwitchBot
         private readonly TwitchClient client;
         private string _userName;
         private string _channelName;
-
         public TwitchBotClient(string userName, string password, string channelName)
         {
             _userName = userName;
             _channelName = channelName;
 
-            credentials = new ConnectionCredentials(userName,password);
+            credentials = new ConnectionCredentials("218744916", "oauth:9fxcnrikonai5w0vgt0ggaz6bj2pwy");
             client = new TwitchClient();
+            TwitchBotWin.winRef.GetUserListClass().AddUsersToList(TwitchBotWin.winRef.GetApiClass().GetFilledUserListWithAllInformation());
             client.Initialize(credentials, channelName);
-            client.Connect();
-
-            client.OnJoinedChannel += onJoinedChannel;
+            client.ChatThrottler = new TwitchLib.Client.Services.MessageThrottler(client, 20, TimeSpan.FromSeconds(30));
+            client.WhisperThrottler = new TwitchLib.Client.Services.MessageThrottler(client, 20, TimeSpan.FromSeconds(30));
+            client.ChatThrottler.StartQueue();
+            client.OnJoinedChannel += OnJoinedChannel;
             client.OnMessageReceived += onMessageReceived;
             client.OnWhisperReceived += onWhisperReceived;
             client.OnNewSubscriber += onNewSubscriber;
@@ -36,12 +37,12 @@ namespace TwitchBot
             client.OnBeingHosted += Client_OnBeingHosted;
             client.OnReSubscriber += Client_OnReSubscriber;
             client.OnUserJoined += Client_OnUserJoined;
+            client.Connect();
         }
 
         private void Client_OnUserJoined(object sender, OnUserJoinedArgs e)
         {
             Console.WriteLine("The user " + e.Username + "  joined the room");
-            TwitchBotWin.winRef.AddNewUserToStackPanel(e.Username);
         }
 
         private void Client_OnReSubscriber(object sender, OnReSubscriberArgs e)
@@ -56,20 +57,18 @@ namespace TwitchBot
 
         private void Client_OnConnected(object sender, OnConnectedArgs e)
         {
-            Console.WriteLine($"Connected to {e.AutoJoinChannel}");
-
-            Console.WriteLine(client.JoinedChannels[0]);
-
-            TwitchBotWin.winRef.GetUserListClass().AddUsersToList(TwitchBotWin.winRef.GetApiClass().GetFilledUserListWithAllInformation());
-           // client.SendMessage(client.GetJoinedChannel(e.AutoJoinChannel), "Das ist ein Bot");
+                // client.SendMessage(client.GetJoinedChannel(e.AutoJoinChannel), "Das ist ein Bot");
         }
-        private void onJoinedChannel(object sender, OnJoinedChannelArgs e)
+        private void OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-           
+            Console.WriteLine("Joined channel " + e.Channel);
+            Console.WriteLine(client.JoinedChannels.Count);
+           // SendMessageToChannel("The bot has joined the room!", e.Channel);
+          //  SendMessageToChannel("Im Chat sind gerade " + TwitchBotWin.winRef.GetUserListClass().GetFollowerCount() + " follower und  " + TwitchBotWin.winRef.GetUserListClass().GetSubCount() + " subs!", e.Channel);
         }
-        public void WriteMessage(string message)
+        public void SendMessageToChannel(string message, string channelName)
         {
-            client.SendMessage(client.GetJoinedChannel("SentioLIVE"), message);
+           client.SendMessage(channelName, message);
         }
         private void onMessageReceived(object sender, OnMessageReceivedArgs e)
         {
