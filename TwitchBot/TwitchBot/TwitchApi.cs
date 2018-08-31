@@ -68,11 +68,10 @@ namespace TwitchBot
                     if (follower.User.Name == userInChat.userName)
                     {
                         if (userInChat.userType == "Subscriber")
-                        {
-                            followerCounter++;
                             break;
-                        }
+
                         userInChat.userType = "Follower";
+                        userInChat.userID = follower.User.Id;
                         followerCounter++;
                         break;
                     }
@@ -97,6 +96,7 @@ namespace TwitchBot
                     {
                         userInChat.userType = "Subscriber";
                         subsCount++;
+                        userInChat.userID = sub.User.Id;
                         break;
                     }
                 }
@@ -111,13 +111,34 @@ namespace TwitchBot
         }
         public List<Subscription> GetSubsOfChannel()
         {
-            var subsList = Task.Run(() => api.Channels.v5.GetAllSubscribersAsync(channelId).Result);
-            return subsList.Result;
+            var subsList = Task.Run(() => api.Channels.v5.GetAllSubscribersAsync(channelId)).Result;
+            return subsList;
         }
         public List<ChannelFollow> GetFollowersOfChannel()
         {
             var followerList = Task.Run(() => api.Channels.v5.GetAllFollowersAsync(channelId).Result);
             return followerList.Result;
+        }
+        public void Test(string userID)
+        {
+            var test = Task.Run(() => api.Users.helix.GetUsersFollowsAsync(toId: channelId, fromId: userID)).Result;
+            
+        }
+        public TimeSpan GetUpTimeFromUser()
+        {
+            return Task.Run(() => api.Streams.v5.GetUptimeAsync(channelId)).Result.Value;
+        }
+        public void Test2(string userID)
+        {
+            var test = Task.Run(() => api.Users.v5.CheckUserSubscriptionByChannelAsync(userID, channelId)).Result;
+            if(test == null)
+            {
+                Console.WriteLine("Not subed");
+            }
+            else
+            {
+                Console.WriteLine("subed");
+            }
         }
         public void SetClientIDAndAcessToken()
         {

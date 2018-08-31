@@ -58,40 +58,45 @@ namespace TwitchBot
             return this.twitchClient;
         }
         #endregion
+        /// <summary>
+        /// If someone clicks on a MenuItem you have to get the selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <returns></returns>
+        private UserEintrag GetDataClassOfSend(object sender)
+        {
+            MenuItem mi = sender as MenuItem;
+            if (mi != null)
+            {
+                ContextMenu cm = mi.CommandParameter as ContextMenu;
+                if (cm != null)
+                {
+                    DataGridRow gridRow = cm.PlacementTarget as DataGridRow;
+                    if (gridRow != null)
+                    {
+                        if (gridRow.Item is UserEintrag)
+                        {
+                            UserEintrag user = gridRow.Item as UserEintrag;
+                            return user;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
         #region UiEvents
-        private void Bannbtn_Click(object sender, RoutedEventArgs e)
+        private void MenuItemKickUser_Click(object sender, RoutedEventArgs e)
         {
-           
+           var user = GetDataClassOfSend(sender);
+            if(user != null)
+                Console.WriteLine("Kick user: " + user.userName);
         }
-        private void TimeOutbtn_Click(object sender, RoutedEventArgs e)
+        private void MenuItemTimeOutUser_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Timeout user");
+            var user = GetDataClassOfSend(sender);
+            if (user != null)
+                Console.WriteLine("Time out user: " + user.userName);
         }
-        private void KickBtn(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("");
-        }
-        private void Informationbtn_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        //private void tblock_Message_LostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    if (string.IsNullOrWhiteSpace(tblock_Message.Text))
-        //    {
-        //        tblock_Message.Text = "Type a Message for the....";
-        //        tblock_Message.Foreground = new SolidColorBrush(Colors.LightGray);
-        //    }
-        //}
-
-        //private void tblock_Message_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    if (tblock_Message.Text == "Type a Message for the....")
-        //    {
-        //        tblock_Message.Text = "";
-        //        tblock_Message.Foreground = new SolidColorBrush(Colors.Black);
-        //    }
-        //}
         private void grid_MouseEnter(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")
@@ -197,6 +202,14 @@ namespace TwitchBot
                 stackPanel_Message.Children.Add(panel);
                 stackPanel_Message.Children.Add(lb_Message);
             });
+        }
+
+        private void OnWinIsLoaded(object sender, RoutedEventArgs e)
+        {
+            dataGrid_UserList.Columns[0].Header = "Username";
+            dataGrid_UserList.Columns[1].Header = "Userstate";
+            dataGrid_UserList.Columns[2].Header = "Seit";
+            dataGrid_UserList.Columns[2].Header = "Punkte";
         }
         //Grapic Part
     }

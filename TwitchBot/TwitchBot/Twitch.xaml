@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwitchBot"
         mc:Ignorable="d"
-        Title="TwtichWin" Height="784" Width="1157" WindowStyle="None">
+        Title="TwtichWin" Height="784" Width="1157" WindowStyle="None" Loaded="OnWinIsLoaded">
 
     <Window.Resources>
         <Style x:Key="MyButton" TargetType="Button">
@@ -56,8 +56,17 @@
                         <Label Margin="30,0,25,0" Content="Filter:" Height="30.4"/>
                         <TextBox Width="200"  HorizontalAlignment="Left" Margin="70,0,0,0" />
                     </Grid>
-                    <DataGrid GridLinesVisibility="None" Name="dataGrid_UserList" Background="#FF6A6A6A" ColumnWidth="0.2*">
+                    <DataGrid GridLinesVisibility="None" Name="dataGrid_UserList" Background="#FF6A6A6A" ColumnWidth="0.2*" RowHeaderWidth="0" IsReadOnly="True" SelectionUnit="FullRow" CanUserAddRows="False">
                         <DataGrid.Resources>
+                            <ContextMenu x:Key="ticketContextMenu">
+                                <ContextMenu.Items>
+                                    <MenuItem Header="Kick User" Command="{Binding DataContext.TicketsViewModel.ViewTicketInBrowser_Command, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Parent}" Click="MenuItemKickUser_Click"/>
+                                    <MenuItem Header="Time out User"  Command="{Binding DataContext.TicketsViewModel.ViewTicketInBrowser_Command, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding DataContext.TicketNumber, RelativeSource={RelativeSource Mode=Self}}" Click="MenuItemKickUser_Click"/>
+                                </ContextMenu.Items>
+                            </ContextMenu>
+                            <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                                <Setter Property="ContextMenu" Value="{StaticResource ticketContextMenu}" />
+                            </Style>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="DarkGray"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>

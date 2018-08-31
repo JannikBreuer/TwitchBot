@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System;
+using System.Timers;
 
 namespace TwitchBot
 {
@@ -8,12 +10,51 @@ namespace TwitchBot
         public  ObservableCollection<UserEintrag> userList { get; set; }
         private int currenSubsInChat;
         private int currentFollowerInChat;
+        private int currentNonFollowerViewer;           //And non sub
+        private Timer timer;
 
+        public UserListClass()
+        {
+            userList = new ObservableCollection<UserEintrag>();
+            timer = new Timer();
+            timer.Interval = 60000;
+            timer.Elapsed += Timer_Elapsed;
+            timer.Start();
+        }
 
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (userList.Count == 0) return;
+            for (int i = 0; i < userList.Count; i++)
+            {
+                var user = new UserEintrag();
+                user.since = userList[i].since;
+                user.userName = userList[i].userName;
+                user.userID = userList[i].userID;
+                user.currentWatchTime = userList[i].currentWatchTime.Add(new TimeSpan(0, 1, 0));
+                userList.RemoveAt(i);
+                userList.Insert(i,user);
+            }
+        }
         #region getter#Setter
+        public int GetCurrentNonViewerInChat()
+        {
+            return this.currentNonFollowerViewer;
+        }
         public int GetSubCount()
         {
             return this.currenSubsInChat;
+        }
+        public void SetUserTypeOfUser(string userName, string userType)
+        {
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].userName == userName)
+                {
+                    userList[i].userType = userType;
+                    return;
+                }
+            }
         }
         public int GetFollowerCount()
         {
@@ -21,27 +62,47 @@ namespace TwitchBot
         }
         public void SetFollowerCount(int newFollowerCount)
         {
-            currentFollowerInChat = newFollowerCount;
+            this.currentFollowerInChat = newFollowerCount;
         }
         public void SetSubCountInChat(int newSubCount)
         {
-            currenSubsInChat = newSubCount;
+            this.currenSubsInChat = newSubCount;
         }
-        public void SetTypeOfUser(string userName, string userType)
+        public void SetCurrentNonFollowerViewerInChat(int newNonFollowerViewerCount) 
         {
-            foreach (var user in userList)
-            {
-                if (user.userName == userName)
-                {
-                    user.userType = userType;
-                    return;
-                }
-            }
+            this.currentNonFollowerViewer = newNonFollowerViewerCount;
         }
         #endregion
-        public UserListClass()
+        public void AddNewFollowerToCurrentFollowerInChat()
         {
-            userList = new ObservableCollection<UserEintrag>();
+            this.currentFollowerInChat++;
+        }
+        public void AddNewSubToCurrentSubsInChat()
+        {
+            this.currenSubsInChat++;
+        }
+        public void AddNewUserToCurrentChannel(UserEintrag user)
+        {
+            userList.Add(user);
+        }
+        public void UserLefTheChannel(string userName)
+        {
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if(userList[i].userName == userName)
+                {
+                    if (userList[i].userType == "Viewer")
+                        currentNonFollowerViewer--;
+                    else if (userList[i].userType == "Follower")
+                        currentFollowerInChat--;
+                    else
+                        currenSubsInChat--;
+
+                    userList.RemoveAt(i);
+                    break;
+                }
+
+            }
         }
         public void AddUsersToList(ObservableCollection<UserEintrag> _userList)
         {
@@ -57,5 +118,8 @@ namespace TwitchBot
         public string userName { get; set; }
         public string userType { get; set; } = "Viewer";        //is Follower ore Sub
         public string userPoints { get; set; } = "0";      //muss später noch eingefügt werden
+        public string since { get; set; } 
+        public string userID { get; set; }
+        public TimeSpan currentWatchTime = new TimeSpan(0);         //UserViewTime
     }
 }

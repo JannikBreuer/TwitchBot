@@ -22,10 +22,7 @@ namespace TwitchBot
         private void Client_OnFollow(object sender, TwitchLib.PubSub.Events.OnFollowArgs e)
         {
             Console.WriteLine("The User: " + e.DisplayName + " has followed!");
-            
-        }
-        public void IsUserSubed()
-        {
+            TwitchBotWin.winRef.GetUserListClass().SetUserTypeOfUser(e.Username, "Follower");
             
         }
         private void Client_OnPubSubServiceConnected(object sender, EventArgs e)

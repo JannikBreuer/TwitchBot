@@ -37,12 +37,31 @@ namespace TwitchBot
             client.OnBeingHosted += Client_OnBeingHosted;
             client.OnReSubscriber += Client_OnReSubscriber;
             client.OnUserJoined += Client_OnUserJoined;
-            client.Connect();
+            client.OnUserLeft += Client_OnUserLeft;
+
+
+            //irgendwie muss ich noch an die unfollower und unsubs dran kommen 
+            try
+            {
+                client.Connect();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Verbindung konnte nicht hergestellt werden. Exception: " + e);
+                //DO something (informate the user that he isnt connected with the channel ....)
+            }
+        }
+
+        private void Client_OnUserLeft(object sender, OnUserLeftArgs e)
+        {
+            Console.WriteLine("The user " + e.Username + " left the room");
+            TwitchBotWin.winRef.GetUserListClass().UserLefTheChannel(e.Username);
         }
 
         private void Client_OnUserJoined(object sender, OnUserJoinedArgs e)
         {
             Console.WriteLine("The user " + e.Username + "  joined the room");
+            TwitchBotWin.winRef.GetUserListClass();
         }
 
         private void Client_OnReSubscriber(object sender, OnReSubscriberArgs e)
@@ -64,7 +83,7 @@ namespace TwitchBot
             Console.WriteLine("Joined channel " + e.Channel);
             Console.WriteLine(client.JoinedChannels.Count);
            // SendMessageToChannel("The bot has joined the room!", e.Channel);
-          //  SendMessageToChannel("Im Chat sind gerade " + TwitchBotWin.winRef.GetUserListClass().GetFollowerCount() + " follower und  " + TwitchBotWin.winRef.GetUserListClass().GetSubCount() + " subs!", e.Channel);
+            //SendMessageToChannel("Im Chat sind gerade " + TwitchBotWin.winRef.GetUserListClass().GetFollowerCount() + " follower und  " + TwitchBotWin.winRef.GetUserListClass().GetSubCount() + " subs und " + TwitchBotWin.winRef.GetUserListClass().GetCurrentNonViewerInChat() + " Viewer die keine Follower sind!", e.Channel);
         }
         public void SendMessageToChannel(string message, string channelName)
         {
@@ -81,7 +100,8 @@ namespace TwitchBot
         private void onNewSubscriber(object sender, OnNewSubscriberArgs e)
         {
             Console.WriteLine("The user " + e.Subscriber.DisplayName + " subed!!!");
-            TwitchBotWin.winRef.GetUserListClass().SetTypeOfUser(e.Subscriber.DisplayName, "Subscriber");
+            TwitchBotWin.winRef.GetUserListClass().SetUserTypeOfUser(e.Subscriber.DisplayName, "Subscriber");
+            TwitchBotWin.winRef.GetUserListClass().AddNewSubToCurrentSubsInChat();
         }
 
     }
