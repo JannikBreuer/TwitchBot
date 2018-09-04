@@ -25,6 +25,10 @@ namespace TwitchBot
         private string imagePfadBtn = @"D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg";
 
 
+        private MediaElement loadingGifPlayer;
+
+
+        private readonly StreamInformation infoAboutStreamClass;
         private readonly UserListClass userListClass;
         private readonly TwitchApi apiClass;
         private readonly TwitchBotClient twitchClient;
@@ -42,9 +46,14 @@ namespace TwitchBot
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
             apiClass = new TwitchApi();
+            infoAboutStreamClass = new StreamInformation();
             twitchClient = new TwitchBotClient("jnkstv", File.ReadAllText(@"C:\Users\Janniks-Pc\Documents\Pw\TwitchOAuthToken.txt"), "SentioLIVE");
         }
         #region get + setter
+        public StreamInformation GetStreamInformationClass()
+        {
+            return this.infoAboutStreamClass;
+        }
         public TwitchApi GetApiClass()
         {
             return this.apiClass;
@@ -166,7 +175,17 @@ namespace TwitchBot
             var brush = (Brush)converter.ConvertFromString(hexCode);
             return brush;
         }
-        public void AddNewMessageToStackPanel(string username, string message, string date)
+        public void RefreshCountLabels()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                lb_FollowerCount.Content = "Followercount: " + userListClass.GetFollowerCount(); ;
+                lb_nonFollowerCount.Content = "Non Follower count: " + userListClass.GetCurrentNonFollowerInChat(); ;
+                lb_SubsCount.Content = "Subcount: " + userListClass.GetSubCount();
+                lb_ViewerCount.Content = "Viewercount: " + userListClass.GetCurrentViewerCount();
+            });
+        }
+            public void AddNewMessageToStackPanel(string username, string message, string date, Color color)
         {
             Dispatcher.Invoke(() =>
             {
@@ -175,17 +194,17 @@ namespace TwitchBot
                 panel.VerticalAlignment = VerticalAlignment.Top;
                 panel.Orientation = Orientation.Horizontal;
                 panel.Margin = new Thickness(0, 1, 0, 0);
-                panel.Background = new SolidColorBrush(Colors.CornflowerBlue);
+                //panel.Background = new SolidColorBrush();
 
                 Label lb_Username = new Label();
                 lb_Username.Content = username;
-                lb_Username.Foreground = new SolidColorBrush(Colors.Red);
+                lb_Username.Foreground = new SolidColorBrush(color);
                 Label lb_Date = new Label();
                 lb_Date.Content = date;
                 lb_Username.HorizontalAlignment = HorizontalAlignment.Right;
                 lb_Date.HorizontalAlignment = HorizontalAlignment.Left;
                 lb_Date.Margin = new Thickness(465, 0, 0, 0);
-                lb_Date.Foreground = new SolidColorBrush(Colors.Red);
+                lb_Date.Foreground = new SolidColorBrush(color);
 
                 panel.Children.Add(lb_Username);
                 panel.Children.Add(lb_Date);
@@ -193,8 +212,7 @@ namespace TwitchBot
                 Label lb_Message = new Label();
                 lb_Message.Content = "Message: " + message;
                 lb_Message.Margin = new Thickness(50, -1, 0, 0);
-                lb_Message.Foreground = new SolidColorBrush(Colors.WhiteSmoke);
-                lb_Message.Background = new SolidColorBrush(Colors.CornflowerBlue);
+                lb_Message.Foreground = new SolidColorBrush(color);
 
                 if (stackPanel_Message.Children.Count > 0)
                     panel.Margin = new Thickness(0, 10, 0, 0);
@@ -203,13 +221,26 @@ namespace TwitchBot
                 stackPanel_Message.Children.Add(lb_Message);
             });
         }
-
+        public void CreatLoadingAndAddItToUIserListGrid()
+        {
+            loadingGifPlayer = new MediaElement();
+            loadingGifPlayer.Source = new Uri("");
+            loadingGifPlayer.Height = 200;
+            loadingGifPlayer.Width = 200;
+            dataGrid_UserList.Items.Add(loadingGifPlayer);
+        }
+        public void DeletLoadingImage()
+        {
+            dataGrid_UserList.Items.Remove(loadingGifPlayer);
+        }
         private void OnWinIsLoaded(object sender, RoutedEventArgs e)
         {
             dataGrid_UserList.Columns[0].Header = "Username";
             dataGrid_UserList.Columns[1].Header = "Userstate";
             dataGrid_UserList.Columns[2].Header = "Seit";
-            dataGrid_UserList.Columns[2].Header = "Punkte";
+            dataGrid_UserList.Columns[3].Header = "Punkte";
+            dataGrid_UserList.Columns[4].Header = "UserID";
+            dataGrid_UserList.Columns[4].Header = "WatchTime";
         }
         //Grapic Part
     }

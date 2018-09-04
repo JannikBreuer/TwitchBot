@@ -29,6 +29,7 @@ namespace TwitchBot
             {
                 var user = new UserEintrag();
                 user.since = userList[i].since;
+                user.userType = userList[i].userType;
                 user.userName = userList[i].userName;
                 user.userID = userList[i].userID;
                 user.currentWatchTime = userList[i].currentWatchTime.Add(new TimeSpan(0, 1, 0));
@@ -37,7 +38,20 @@ namespace TwitchBot
             }
         }
         #region getter#Setter
-        public int GetCurrentNonViewerInChat()
+        public string GetViewerCurrentWatchTime(string userName)
+        {
+            foreach (var user in userList)
+            {
+                if (user.userName == userName)
+                    return user.currentWatchTime.ToString(@"hh\:mm");
+            }
+            return null;
+        }
+        public int GetCurrentViewerCount()
+        {
+            return this.userList.Count;
+        }
+        public int GetCurrentNonFollowerInChat()
         {
             return this.currentNonFollowerViewer;
         }
@@ -76,6 +90,10 @@ namespace TwitchBot
         public void AddNewFollowerToCurrentFollowerInChat()
         {
             this.currentFollowerInChat++;
+        }
+        public void AddNewNonFollowerToCurrentNonFollwerChat()
+        {
+            this.currentNonFollowerViewer++;
         }
         public void AddNewSubToCurrentSubsInChat()
         {
@@ -117,9 +135,13 @@ namespace TwitchBot
     {
         public string userName { get; set; }
         public string userType { get; set; } = "Viewer";        //is Follower ore Sub
+        public string since { get; set; }
         public string userPoints { get; set; } = "0";      //muss später noch eingefügt werden
-        public string since { get; set; } 
         public string userID { get; set; }
-        public TimeSpan currentWatchTime = new TimeSpan(0);         //UserViewTime
+        public TimeSpan currentWatchTime { get; set; } = new TimeSpan(0);         //UserViewTime
+
+
+
+
     }
 }

@@ -23,7 +23,9 @@ namespace TwitchBot
         {
             Console.WriteLine("The User: " + e.DisplayName + " has followed!");
             TwitchBotWin.winRef.GetUserListClass().SetUserTypeOfUser(e.Username, "Follower");
-            
+            //Add new follower to Stream
+            TwitchBotWin.winRef.RefreshCountLabels();
+
         }
         private void Client_OnPubSubServiceConnected(object sender, EventArgs e)
         {

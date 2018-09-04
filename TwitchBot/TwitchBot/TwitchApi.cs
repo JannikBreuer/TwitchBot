@@ -71,6 +71,7 @@ namespace TwitchBot
                             break;
 
                         userInChat.userType = "Follower";
+                        userInChat.since = follower.CreatedAt.ToString("DD");
                         userInChat.userID = follower.User.Id;
                         followerCounter++;
                         break;
@@ -97,6 +98,7 @@ namespace TwitchBot
                         userInChat.userType = "Subscriber";
                         subsCount++;
                         userInChat.userID = sub.User.Id;
+                        userInChat.since = sub.CreatedAt.ToString();
                         break;
                     }
                 }
@@ -119,14 +121,15 @@ namespace TwitchBot
             var followerList = Task.Run(() => api.Channels.v5.GetAllFollowersAsync(channelId).Result);
             return followerList.Result;
         }
-        public void Test(string userID)
+        public void CheckIfUserIsFollowing(string userID)
         {
             var test = Task.Run(() => api.Users.helix.GetUsersFollowsAsync(toId: channelId, fromId: userID)).Result;
             
         }
-        public TimeSpan GetUpTimeFromUser()
+        public string GetUpTimeFromUser()
         {
-            return Task.Run(() => api.Streams.v5.GetUptimeAsync(channelId)).Result.Value;
+            var timeSpan =  Task.Run(() => api.Streams.v5.GetUptimeAsync(channelId)).Result.Value;
+            return timeSpan.ToString(@"hh\:mm\:ss");
         }
         public void Test2(string userID)
         {

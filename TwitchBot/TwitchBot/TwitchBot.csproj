@@ -157,6 +157,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="StreamInformation.cs" />
     <Compile Include="Twitch.xaml.cs">
       <DependentUpon>Twitch.xaml</DependentUpon>
     </Compile>

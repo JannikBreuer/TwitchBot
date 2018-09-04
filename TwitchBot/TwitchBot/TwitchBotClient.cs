@@ -5,6 +5,7 @@ using TwitchLib;
 using TwitchLib.Client;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Events;
+using System.Threading;
 
 namespace TwitchBot
 {
@@ -13,18 +14,19 @@ namespace TwitchBot
 
         private ConnectionCredentials credentials;
 
-
         private readonly TwitchClient client;
         private string _userName;
         private string _channelName;
+        private Thread addUsersToListThread;
         public TwitchBotClient(string userName, string password, string channelName)
         {
             _userName = userName;
             _channelName = channelName;
-
-            credentials = new ConnectionCredentials("", "");
+            addUsersToListThread = new Thread(FillUserList);
+            addUsersToListThread.Start();
+            credentials = new ConnectionCredentials("218744916", "gjhi4j2o6npoab4saq4xe7yjhc08fp");
             client = new TwitchClient();
-            TwitchBotWin.winRef.GetUserListClass().AddUsersToList(TwitchBotWin.winRef.GetApiClass().GetFilledUserListWithAllInformation());
+            
             client.Initialize(credentials, channelName);
             client.ChatThrottler = new TwitchLib.Client.Services.MessageThrottler(client, 20, TimeSpan.FromSeconds(30));
             client.WhisperThrottler = new TwitchLib.Client.Services.MessageThrottler(client, 20, TimeSpan.FromSeconds(30));
@@ -38,7 +40,8 @@ namespace TwitchBot
             client.OnReSubscriber += Client_OnReSubscriber;
             client.OnUserJoined += Client_OnUserJoined;
             client.OnUserLeft += Client_OnUserLeft;
-
+            client.OnChatCommandReceived += Client_OnChatCommandReceived;
+            client.AddChatCommandIdentifier('!');
 
             //irgendwie muss ich noch an die unfollower und unsubs dran kommen 
             try
@@ -52,6 +55,35 @@ namespace TwitchBot
             }
         }
 
+        private void Client_OnChatCommandReceived(object sender, OnChatCommandReceivedArgs e)
+        {
+            string parameter;
+
+            parameter = e.Command.ArgumentsAsString;
+
+            if (e.Command.ArgumentsAsString.Contains(" "))
+            {
+                var split = e.Command.ArgumentsAsString.Split(' ');
+                parameter = split[0];
+            }
+
+
+            Commands.IdentifyCommand(e.Command.CommandText, parameter);
+            Console.WriteLine("Recieved a command! "  + e.Command.CommandText + "  " + e.Command.ArgumentsAsString);
+
+        }
+
+        private void FillUserList()
+        {
+            //Play loading animation
+            TwitchBotWin.winRef.CreatLoadingAndAddItToUIserListGrid();
+            TwitchBotWin.winRef.GetUserListClass().AddUsersToList(TwitchBotWin.winRef.GetApiClass().GetFilledUserListWithAllInformation());
+            var followerAndSubCount = TwitchBotWin.winRef.GetUserListClass().GetFollowerCount() + TwitchBotWin.winRef.GetUserListClass().GetSubCount();
+            TwitchBotWin.winRef.GetUserListClass().SetCurrentNonFollowerViewerInChat(TwitchBotWin.winRef.GetUserListClass().GetCurrentViewerCount() - followerAndSubCount);
+            TwitchBotWin.winRef.RefreshCountLabels();
+            TwitchBotWin.winRef.DeletLoadingImage();
+            //quit loading animatio
+        }
         private void Client_OnUserLeft(object sender, OnUserLeftArgs e)
         {
             Console.WriteLine("The user " + e.Username + " left the room");
@@ -82,6 +114,7 @@ namespace TwitchBot
         {
             Console.WriteLine("Joined channel " + e.Channel);
             Console.WriteLine(client.JoinedChannels.Count);
+            //Add UserListCount to view count
            // SendMessageToChannel("The bot has joined the room!", e.Channel);
             //SendMessageToChannel("Im Chat sind gerade " + TwitchBotWin.winRef.GetUserListClass().GetFollowerCount() + " follower und  " + TwitchBotWin.winRef.GetUserListClass().GetSubCount() + " subs und " + TwitchBotWin.winRef.GetUserListClass().GetCurrentNonViewerInChat() + " Viewer die keine Follower sind!", e.Channel);
         }
@@ -91,7 +124,7 @@ namespace TwitchBot
         }
         private void onMessageReceived(object sender, OnMessageReceivedArgs e)
         {
-            TwitchBotWin.winRef.AddNewMessageToStackPanel(e.ChatMessage.Username, e.ChatMessage.Message, DateTime.Now.ToString("HH:mm"));
+            TwitchBotWin.winRef.AddNewMessageToStackPanel(e.ChatMessage.Username, e.ChatMessage.Message, DateTime.Now.ToString("HH:mm"), System.Windows.Media.Color.FromArgb(e.ChatMessage.Color.A, e.ChatMessage.Color.R, e.ChatMessage.Color.G, e.ChatMessage.Color.B));
         }
         private void onWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
@@ -102,6 +135,8 @@ namespace TwitchBot
             Console.WriteLine("The user " + e.Subscriber.DisplayName + " subed!!!");
             TwitchBotWin.winRef.GetUserListClass().SetUserTypeOfUser(e.Subscriber.DisplayName, "Subscriber");
             TwitchBotWin.winRef.GetUserListClass().AddNewSubToCurrentSubsInChat();
+            //Add new sub to count
+            TwitchBotWin.winRef.RefreshCountLabels();
         }
 
     }
