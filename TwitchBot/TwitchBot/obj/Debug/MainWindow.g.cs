@@ -123,7 +123,7 @@ namespace TwitchBot {
             this.btn_Login = ((System.Windows.Controls.Button)(target));
             
             #line 16 "..\..\MainWindow.xaml"
-            this.btn_Login.Click += new System.Windows.RoutedEventHandler(this.Btn_Login_Click);
+            this.btn_Login.Click += new System.Windows.RoutedEventHandler(this.btn_Login_Click);
             
             #line default
             #line hidden
@@ -132,7 +132,7 @@ namespace TwitchBot {
             this.btn_Exit = ((System.Windows.Controls.Button)(target));
             
             #line 17 "..\..\MainWindow.xaml"
-            this.btn_Exit.Click += new System.Windows.RoutedEventHandler(this.Btn_Exit_Click);
+            this.btn_Exit.Click += new System.Windows.RoutedEventHandler(this.btn_Exit_Click);
             
             #line default
             #line hidden

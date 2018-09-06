@@ -25,7 +25,8 @@ namespace TwitchBot
             channelName = _channelName;
             addUsersToListThread = new Thread(FillUserList);
             addUsersToListThread.Start();
-            credentials = new ConnectionCredentials("218744916", "gjhi4j2o6npoab4saq4xe7yjhc08fp");
+            //Should be filled with oAuthToken and userId
+            credentials = new ConnectionCredentials("", "");
             client = new TwitchClient();
             
             client.Initialize(credentials, channelName);
@@ -33,9 +34,9 @@ namespace TwitchBot
             client.WhisperThrottler = new TwitchLib.Client.Services.MessageThrottler(client, 20, TimeSpan.FromSeconds(30));
             client.ChatThrottler.StartQueue();
             client.OnJoinedChannel += OnJoinedChannel;
-            client.OnMessageReceived += onMessageReceived;
-            client.OnWhisperReceived += onWhisperReceived;
-            client.OnNewSubscriber += onNewSubscriber;
+            client.OnMessageReceived += OnMessageReceived;
+            client.OnWhisperReceived += OnWhisperReceived;
+            client.OnNewSubscriber += OnNewSubscriber;
             client.OnConnected += Client_OnConnected;
             client.OnBeingHosted += Client_OnBeingHosted;
             client.OnReSubscriber += Client_OnReSubscriber;
@@ -44,7 +45,7 @@ namespace TwitchBot
             client.OnChatCommandReceived += Client_OnChatCommandReceived;
             client.AddChatCommandIdentifier('!');
 
-            //irgendwie muss ich noch an die unfollower und unsubs dran kommen 
+            //Unsub events will come late .... (nur zur anmerkung)
             try
             {
                 client.Connect();
@@ -52,7 +53,6 @@ namespace TwitchBot
             catch(Exception e)
             {
                 Console.WriteLine("Verbindung konnte nicht hergestellt werden. Exception: " + e);
-                //DO something (informate the user that he isnt connected with the channel ....)
             }
         }
 
@@ -71,19 +71,16 @@ namespace TwitchBot
 
             Commands.IdentifyCommand(e.Command.CommandText, parameter);
             Console.WriteLine("Recieved a command! "  + e.Command.CommandText + "  " + e.Command.ArgumentsAsString);
-
         }
 
         private void FillUserList()
         {
-            //Play loading animation
             TwitchBotWin.WinRef.CreatLoadingAndAddItToUIserListGrid();
             TwitchBotWin.WinRef.GetUserListClass().AddUsersToList(TwitchBotWin.WinRef.GetApiClass().GetFilledUserListWithAllInformation());
             var followerAndSubCount = TwitchBotWin.WinRef.GetUserListClass().GetFollowerCount() + TwitchBotWin.WinRef.GetUserListClass().GetSubCount();
             TwitchBotWin.WinRef.GetUserListClass().SetCurrentNonFollowerViewerInChat(TwitchBotWin.WinRef.GetUserListClass().GetCurrentViewerCount() - followerAndSubCount);
             TwitchBotWin.WinRef.RefreshCountLabels();
             TwitchBotWin.WinRef.DeletLoadingImage();
-            //quit loading animatio
         }
 
         private void Client_OnUserLeft(object sender, OnUserLeftArgs e)
@@ -100,27 +97,23 @@ namespace TwitchBot
 
         private void Client_OnReSubscriber(object sender, OnReSubscriberArgs e)
         {
-            //if he resub is he a new sub or is he still the same sub ?
         }
 
         private void Client_OnBeingHosted(object sender, OnBeingHostedArgs e)
         {
             Console.WriteLine("You got hosted by " + e.BeingHostedNotification.HostedByChannel + "  with  " + e.BeingHostedNotification.Viewers + "  viewers");
-            //e.BeingHostedNotification.HostedByChannel
+ 
         }
 
         private void Client_OnConnected(object sender, OnConnectedArgs e)
         {
-                // client.SendMessage(client.GetJoinedChannel(e.AutoJoinChannel), "Das ist ein Bot");
+               
         }
 
         private void OnJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
             Console.WriteLine("Joined channel " + e.Channel);
             Console.WriteLine(client.JoinedChannels.Count);
-            //Add UserListCount to view count
-           // SendMessageToChannel("The bot has joined the room!", e.Channel);
-            //SendMessageToChannel("Im Chat sind gerade " + TwitchBotWin.winRef.GetUserListClass().GetFollowerCount() + " follower und  " + TwitchBotWin.winRef.GetUserListClass().GetSubCount() + " subs und " + TwitchBotWin.winRef.GetUserListClass().GetCurrentNonViewerInChat() + " Viewer die keine Follower sind!", e.Channel);
         }
 
         public void SendMessageToChannel(string message, string channelName)
@@ -128,22 +121,21 @@ namespace TwitchBot
            client.SendMessage(channelName, message);
         }
 
-        private void onMessageReceived(object sender, OnMessageReceivedArgs e)
+        private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             TwitchBotWin.WinRef.AddNewMessageToStackPanel(e.ChatMessage.Username, e.ChatMessage.Message, DateTime.Now.ToString("HH:mm"), System.Windows.Media.Color.FromArgb(e.ChatMessage.Color.A, e.ChatMessage.Color.R, e.ChatMessage.Color.G, e.ChatMessage.Color.B));
         }
 
-        private void onWhisperReceived(object sender, OnWhisperReceivedArgs e)
+        private void OnWhisperReceived(object sender, OnWhisperReceivedArgs e)
         {
         
         }
 
-        private void onNewSubscriber(object sender, OnNewSubscriberArgs e)
+        private void OnNewSubscriber(object sender, OnNewSubscriberArgs e)
         {
             Console.WriteLine("The user " + e.Subscriber.DisplayName + " subed!!!");
             TwitchBotWin.WinRef.GetUserListClass().SetUserTypeOfUser(e.Subscriber.DisplayName, "Subscriber");
             TwitchBotWin.WinRef.GetUserListClass().AddNewSubToCurrentSubsInChat();
-            //Add new sub to count
             TwitchBotWin.WinRef.RefreshCountLabels();
         }
 

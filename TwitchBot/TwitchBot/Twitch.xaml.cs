@@ -27,6 +27,8 @@ namespace TwitchBot
 
         private MediaElement loadingGifPlayer;
 
+        private const string COLORSELECTEDBTN = "#FF37568B";
+        private const string COLORUNSELECTEDBTN = "#FF3F3F46";
 
         private readonly StreamInformation infoAboutStreamClass;
         private readonly UserListClass userListClass;
@@ -68,11 +70,8 @@ namespace TwitchBot
             return this.twitchClient;
         }
         #endregion
-        /// <summary>
-        /// If someone clicks on a MenuItem you have to get the selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <returns></returns>
+
+
         private UserEintrag GetDataClassOfSend(object sender)
         {
             MenuItem mi = sender as MenuItem;
@@ -112,41 +111,41 @@ namespace TwitchBot
             if ((sender as Grid).Name == "grid_Button1")
             {
                 img_UserList.Source = new BitmapImage(new Uri(imagePfadSelectedBtn));
-                btn_UserList.Background = ConvertHexIntoBrush("#FF37568B");
-                grid_Button1.Background = ConvertHexIntoBrush("#FF37568B");
+                btn_UserList.Background = ConvertHexIntoBrush(COLORSELECTEDBTN);
+                grid_Button1.Background = ConvertHexIntoBrush(COLORSELECTEDBTN);
             }
             else if ((sender as Grid).Name == "grid_Button2")
             {
                 img_Messages.Source = new BitmapImage(new Uri(imagePfadSelectedBtn));
-                btn_Messages.Background = ConvertHexIntoBrush("#FF37568B");
-                grid_Button2.Background = ConvertHexIntoBrush("#FF37568B");
+                btn_Messages.Background = ConvertHexIntoBrush(COLORSELECTEDBTN);
+                grid_Button2.Background = ConvertHexIntoBrush(COLORSELECTEDBTN);
             }
             else if ((sender as Grid).Name == "grid_Button3")
             {
                 img_Roulette.Source = new BitmapImage(new Uri(imagePfadSelectedBtn));
-                btn_Roulette.Background = ConvertHexIntoBrush("#FF37568B");
-                grid_Button3.Background = ConvertHexIntoBrush("#FF37568B");
+                btn_Roulette.Background = ConvertHexIntoBrush(COLORSELECTEDBTN);
+                grid_Button3.Background = ConvertHexIntoBrush(COLORSELECTEDBTN);
             }
         }
-        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")
             {
                 img_UserList.Source = new BitmapImage(new Uri(imagePfadBtn));
-                btn_UserList.Background = ConvertHexIntoBrush("#FF3F3F46");
-                grid_Button1.Background = ConvertHexIntoBrush("#FF3F3F46");
+                btn_UserList.Background = ConvertHexIntoBrush(COLORUNSELECTEDBTN);
+                grid_Button1.Background = ConvertHexIntoBrush(COLORUNSELECTEDBTN);
             }
             else if ((sender as Grid).Name == "grid_Button2")
             {
                 img_Messages.Source = new BitmapImage(new Uri(imagePfadBtn));
-                btn_Messages.Background = ConvertHexIntoBrush("#FF3F3F46");
-                grid_Button2.Background = ConvertHexIntoBrush("#FF3F3F46");
+                btn_Messages.Background = ConvertHexIntoBrush(COLORUNSELECTEDBTN);
+                grid_Button2.Background = ConvertHexIntoBrush(COLORUNSELECTEDBTN);
             }
             else if ((sender as Grid).Name == "grid_Button3")
             {
                 img_Roulette.Source = new BitmapImage(new Uri(imagePfadBtn));
-                btn_Roulette.Background = ConvertHexIntoBrush("#FF3F3F46");
-                grid_Button3.Background = ConvertHexIntoBrush("#FF3F3F46");
+                btn_Roulette.Background = ConvertHexIntoBrush(COLORUNSELECTEDBTN);
+                grid_Button3.Background = ConvertHexIntoBrush(COLORUNSELECTEDBTN);
             }
         }
         private void Btn_ClickShowUserListGrid(object sender, EventArgs e)
@@ -195,7 +194,6 @@ namespace TwitchBot
                 panel.VerticalAlignment = VerticalAlignment.Top;
                 panel.Orientation = Orientation.Horizontal;
                 panel.Margin = new Thickness(0, 1, 0, 0);
-                //panel.Background = new SolidColorBrush();
 
                 Label lb_Username = new Label();
                 lb_Username.Content = username;
@@ -243,6 +241,5 @@ namespace TwitchBot
             dataGrid_UserList.Columns[4].Header = "UserID";
             dataGrid_UserList.Columns[4].Header = "WatchTime";
         }
-        //Grapic Part
     }
 }

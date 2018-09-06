@@ -18,7 +18,6 @@ namespace TwitchBot
     public class TwitchApi
     {
         private readonly TwitchAPI api;
-        //Ist das gleiche wie die UserId
         private string channelId = "95745125";
 
         public TwitchApi()
@@ -31,7 +30,9 @@ namespace TwitchBot
         {
             var result = Task.Run(() => api.Users.v5.CheckUserSubscriptionByChannelAsync(userID, channelId).Result);
             if (result.Result == null)
+            {
                 return false;
+            }
             return true;
         }
 
@@ -39,11 +40,12 @@ namespace TwitchBot
         {
             var result = Task.Run(() => api.Users.v5.CheckUserFollowsByChannelAsync(userID, channelId));
             if (result.Result == null)
+            {
                 return false;
+            }
             return true;
         }
 
-        //Gibt eine List mit Informationen über die User am Chat zurück
         public ObservableCollection<UserEintrag> GetFilledUserListWithAllInformation()          
         {
             ObservableCollection<UserEintrag> userList = new ObservableCollection<UserEintrag>();
@@ -75,8 +77,10 @@ namespace TwitchBot
                     if (follower.User.Name == userInChat.UserName)
                     {
                         if (userInChat.UserType == "Subscriber")
+                        {
+                            //Add one to follower count ....
                             break;
-
+                        }
                         userInChat.UserType = "Follower";
                         userInChat.Since = follower.CreatedAt.ToString("DD");
                         userInChat.UserId = follower.User.Id;
@@ -94,7 +98,6 @@ namespace TwitchBot
             return userList;
         }
 
-        //First find all Subs and then Find the Followers which arent Subs
         public ObservableCollection<UserEintrag> CheckIfUserIsSub(ObservableCollection<UserEintrag> userList, List<Subscription> subs)            
         {
             int subsCount = 0;
@@ -145,7 +148,6 @@ namespace TwitchBot
             return timeSpan.ToString(@"hh\:mm\:ss");
         }
 
-        //Nur eine Testfunction um zu gucken was schneller geht
         public void Test2(string userID)
         {
             var test = Task.Run(() => api.Users.v5.CheckUserSubscriptionByChannelAsync(userID, channelId)).Result;

@@ -23,14 +23,11 @@ namespace TwitchBot
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (UserList.Count == 0) return;
             for (int i = 0; i < UserList.Count; i++)
             {
-                //Muss so gemacht werden, da die UI sonst nicht geupdated werden würde 
-                //(bei neuen Datensätzen in der Liste merkt die UI es und bei änderungen an den Properties nicht)
                 var user = new UserEintrag
                 {
                     Since = UserList[i].Since,
@@ -130,11 +127,17 @@ namespace TwitchBot
                 if(UserList[i].UserName == userName)
                 {
                     if (UserList[i].UserType == "Viewer")
+                    {
                         currentNonFollowerViewer--;
+                    }
                     else if (UserList[i].UserType == "Follower")
+                    {
                         currentFollowerInChat--;
+                    }
                     else
+                    {
                         currenSubsInChat--;
+                    }
 
                     UserList.RemoveAt(i);
                     break;
@@ -155,10 +158,10 @@ namespace TwitchBot
     public class UserEintrag
     {
         public string UserName { get; set; }
-        public string UserType { get; set; } = "Viewer";        //is Follower ore Sub
+        public string UserType { get; set; } = "Viewer";       
         public string Since { get; set; }
-        public string UserPoints { get; set; } = "0";      //muss später noch eingefügt werden
+        public string UserPoints { get; set; } = "0";     
         public string UserId { get; set; }
-        public TimeSpan CurrentWatchTime { get; set; } = new TimeSpan(0);         //UserViewTime
+        public TimeSpan CurrentWatchTime { get; set; } = new TimeSpan(0);
     }
 }
