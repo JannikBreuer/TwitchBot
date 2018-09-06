@@ -14,11 +14,13 @@ namespace TwitchBot
             {
                 case "upTime":
                     {
-                        TwitchBotWin.winRef.GetTwitchBotClient().SendMessageToChannel("Sentio ist seid "  + TwitchBotWin.winRef.GetApiClass().GetUpTimeFromUser() + " am streamen", "SentioLIVE");
+                        TwitchBotWin.WinRef.GetTwitchBotClient().SendMessageToChannel("Sentio ist seid "  + TwitchBotWin.WinRef.GetApiClass().GetUpTimeFromUser() +
+                                                                                      " am streamen", "SentioLIVE");
                     }break;
                 case "uptime":
                     {
-                        TwitchBotWin.winRef.GetTwitchBotClient().SendMessageToChannel("Sentio ist seid " + TwitchBotWin.winRef.GetApiClass().GetUpTimeFromUser() + " am streamen", "SentioLIVE");
+                        TwitchBotWin.WinRef.GetTwitchBotClient().SendMessageToChannel("Sentio ist seid " + TwitchBotWin.WinRef.GetApiClass().GetUpTimeFromUser() + 
+                                                                                      " am streamen", "SentioLIVE");
                     }
                     break;
                 case "viewerwatchtime":
@@ -27,13 +29,14 @@ namespace TwitchBot
                             return;
 
                         
-                        var userWatchTime = TwitchBotWin.winRef.GetUserListClass().GetViewerCurrentWatchTime(parameter);
+                        var userWatchTime = TwitchBotWin.WinRef.GetUserListClass().GetViewerCurrentWatchTime(parameter);
 
                         if(userWatchTime == null)
-                            TwitchBotWin.winRef.GetTwitchBotClient().SendMessageToChannel("Der User ist leider grade nicht im Chat.", "SentioLIVE");
+                            TwitchBotWin.WinRef.GetTwitchBotClient().SendMessageToChannel("Der User ist leider grade nicht im Chat.", "SentioLIVE");
 
 
-                        TwitchBotWin.winRef.GetTwitchBotClient().SendMessageToChannel("Der User " + parameter + " guckt seit " + userWatchTime + " den Stream!", "SentioLIVE");
+                        TwitchBotWin.WinRef.GetTwitchBotClient().SendMessageToChannel("Der User " + parameter + " guckt seit " + 
+                                                                                      userWatchTime + " den Stream!", "SentioLIVE");
                     }
                     break;
             }

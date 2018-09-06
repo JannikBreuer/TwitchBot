@@ -7,141 +7,158 @@ namespace TwitchBot
 {
     public class UserListClass
     {
-        public  ObservableCollection<UserEintrag> userList { get; set; }
+        public  ObservableCollection<UserEintrag> UserList { get; set; }
         private int currenSubsInChat;
         private int currentFollowerInChat;
-        private int currentNonFollowerViewer;           //And non sub
+        private int currentNonFollowerViewer;
         private Timer timer;
 
         public UserListClass()
         {
-            userList = new ObservableCollection<UserEintrag>();
-            timer = new Timer();
-            timer.Interval = 60000;
+            UserList = new ObservableCollection<UserEintrag>();
+            timer = new Timer
+            {
+                Interval = 60000
+            };
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (userList.Count == 0) return;
-            for (int i = 0; i < userList.Count; i++)
+            if (UserList.Count == 0) return;
+            for (int i = 0; i < UserList.Count; i++)
             {
-                var user = new UserEintrag();
-                user.since = userList[i].since;
-                user.userType = userList[i].userType;
-                user.userName = userList[i].userName;
-                user.userID = userList[i].userID;
-                user.currentWatchTime = userList[i].currentWatchTime.Add(new TimeSpan(0, 1, 0));
-                userList.RemoveAt(i);
-                userList.Insert(i,user);
+                //Muss so gemacht werden, da die UI sonst nicht geupdated werden würde 
+                //(bei neuen Datensätzen in der Liste merkt die UI es und bei änderungen an den Properties nicht)
+                var user = new UserEintrag
+                {
+                    Since = UserList[i].Since,
+                    UserType = UserList[i].UserType,
+                    UserName = UserList[i].UserName,
+                    UserId = UserList[i].UserId,
+                    CurrentWatchTime = UserList[i].CurrentWatchTime.Add(new TimeSpan(0, 1, 0))
+                };
+                UserList.RemoveAt(i);
+                UserList.Insert(i,user);
             }
         }
         #region getter#Setter
+
         public string GetViewerCurrentWatchTime(string userName)
         {
-            foreach (var user in userList)
+            foreach (var user in UserList)
             {
-                if (user.userName == userName)
-                    return user.currentWatchTime.ToString(@"hh\:mm");
+                if (user.UserName == userName)
+                    return user.CurrentWatchTime.ToString(@"hh\:mm");
             }
             return null;
         }
+
         public int GetCurrentViewerCount()
         {
-            return this.userList.Count;
+            return this.UserList.Count;
         }
+
         public int GetCurrentNonFollowerInChat()
         {
             return this.currentNonFollowerViewer;
         }
+
         public int GetSubCount()
         {
             return this.currenSubsInChat;
         }
+
         public void SetUserTypeOfUser(string userName, string userType)
         {
-            for (int i = 0; i < userList.Count; i++)
+            for (int i = 0; i < UserList.Count; i++)
             {
-                if (userList[i].userName == userName)
+                if (UserList[i].UserName == userName)
                 {
-                    userList[i].userType = userType;
+                    UserList[i].UserType = userType;
                     return;
                 }
             }
         }
+
         public int GetFollowerCount()
         {
             return this.currentFollowerInChat;
         }
+
         public void SetFollowerCount(int newFollowerCount)
         {
             this.currentFollowerInChat = newFollowerCount;
         }
+
         public void SetSubCountInChat(int newSubCount)
         {
             this.currenSubsInChat = newSubCount;
         }
+
         public void SetCurrentNonFollowerViewerInChat(int newNonFollowerViewerCount) 
         {
             this.currentNonFollowerViewer = newNonFollowerViewerCount;
         }
         #endregion
+
         public void AddNewFollowerToCurrentFollowerInChat()
         {
             this.currentFollowerInChat++;
         }
+
         public void AddNewNonFollowerToCurrentNonFollwerChat()
         {
             this.currentNonFollowerViewer++;
         }
+
         public void AddNewSubToCurrentSubsInChat()
         {
             this.currenSubsInChat++;
         }
+
         public void AddNewUserToCurrentChannel(UserEintrag user)
         {
-            userList.Add(user);
+            UserList.Add(user);
         }
+
         public void UserLefTheChannel(string userName)
         {
-            for (int i = 0; i < userList.Count; i++)
+            for (int i = 0; i < UserList.Count; i++)
             {
-                if(userList[i].userName == userName)
+                if(UserList[i].UserName == userName)
                 {
-                    if (userList[i].userType == "Viewer")
+                    if (UserList[i].UserType == "Viewer")
                         currentNonFollowerViewer--;
-                    else if (userList[i].userType == "Follower")
+                    else if (UserList[i].UserType == "Follower")
                         currentFollowerInChat--;
                     else
                         currenSubsInChat--;
 
-                    userList.RemoveAt(i);
+                    UserList.RemoveAt(i);
                     break;
                 }
 
             }
         }
+
         public void AddUsersToList(ObservableCollection<UserEintrag> _userList)
         {
             foreach (var item in _userList)
             {
-                userList.Add(item);
+                UserList.Add(item);
             }
         }
         
     }
     public class UserEintrag
     {
-        public string userName { get; set; }
-        public string userType { get; set; } = "Viewer";        //is Follower ore Sub
-        public string since { get; set; }
-        public string userPoints { get; set; } = "0";      //muss später noch eingefügt werden
-        public string userID { get; set; }
-        public TimeSpan currentWatchTime { get; set; } = new TimeSpan(0);         //UserViewTime
-
-
-
-
+        public string UserName { get; set; }
+        public string UserType { get; set; } = "Viewer";        //is Follower ore Sub
+        public string Since { get; set; }
+        public string UserPoints { get; set; } = "0";      //muss später noch eingefügt werden
+        public string UserId { get; set; }
+        public TimeSpan CurrentWatchTime { get; set; } = new TimeSpan(0);         //UserViewTime
     }
 }

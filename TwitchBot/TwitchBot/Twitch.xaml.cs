@@ -35,14 +35,15 @@ namespace TwitchBot
 
         private object lockObj = new object();
 
-        public static TwitchBotWin winRef;
+        public static TwitchBotWin WinRef { get; private set; }
+
         public TwitchBotWin()
         {
             InitializeComponent();
-            winRef = this;
+            WinRef = this;
             userListClass = new UserListClass();
-            BindingOperations.EnableCollectionSynchronization(userListClass.userList, lockObj);
-            dataGrid_UserList.ItemsSource = userListClass.userList;
+            BindingOperations.EnableCollectionSynchronization(userListClass.UserList, lockObj);
+            dataGrid_UserList.ItemsSource = userListClass.UserList;
             grid_UserList.Visibility = Visibility.Visible;
             grid_Message.Visibility = Visibility.Collapsed;
             apiClass = new TwitchApi();
@@ -98,15 +99,15 @@ namespace TwitchBot
         {
            var user = GetDataClassOfSend(sender);
             if(user != null)
-                Console.WriteLine("Kick user: " + user.userName);
+                Console.WriteLine("Kick user: " + user.UserName);
         }
         private void MenuItemTimeOutUser_Click(object sender, RoutedEventArgs e)
         {
             var user = GetDataClassOfSend(sender);
             if (user != null)
-                Console.WriteLine("Time out user: " + user.userName);
+                Console.WriteLine("Time out user: " + user.UserName);
         }
-        private void grid_MouseEnter(object sender, MouseEventArgs e)
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")
             {
@@ -127,7 +128,7 @@ namespace TwitchBot
                 grid_Button3.Background = ConvertHexIntoBrush("#FF37568B");
             }
         }
-        private void grid_MouseLeave(object sender, MouseEventArgs e)
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
             if ((sender as Grid).Name == "grid_Button1")
             {
@@ -148,23 +149,23 @@ namespace TwitchBot
                 grid_Button3.Background = ConvertHexIntoBrush("#FF3F3F46");
             }
         }
-        private void btn_ClickShowUserListGrid(object sender, EventArgs e)
+        private void Btn_ClickShowUserListGrid(object sender, EventArgs e)
         {
             grid_Message.Visibility = Visibility.Collapsed;
             grid_UserList.Visibility = Visibility.Visible;
         }
-        private void btn_ClickShowMessageGrid(object sender, EventArgs e)
+        private void Btn_ClickShowMessageGrid(object sender, EventArgs e)
         {
             grid_UserList.Visibility = Visibility.Collapsed;
             grid_Message.Visibility = Visibility.Visible;
         }
-        private void btn_ClickShow(object sender, EventArgs e)
+        private void Btn_ClickShow(object sender, EventArgs e)
         {
             grid_Button3.Visibility = Visibility.Collapsed;
             grid_Button2.Visibility = Visibility.Collapsed;
             grid_Button1.Visibility = Visibility.Visible;
         }
-        private void btn_ClickRefresh(object sender, EventArgs e)
+        private void Btn_ClickRefresh(object sender, EventArgs e)
         {
             //Refresh UserList
         }

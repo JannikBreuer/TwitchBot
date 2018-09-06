@@ -34,15 +34,15 @@
                 <StackPanel>
                                                     
                     <Image x:Name="img_Icon" Source="D:\GitHub\TwitchBot\Resources\icon2.png" Height="70" Margin="0,10,10.6,0"/>
-                    <Grid Name="grid_Button1" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
-                        <Button Name="btn_UserList" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132"  Style="{StaticResource MyButton}" Click="btn_ClickShowUserListGrid"/>
+                    <Grid Name="grid_Button1" MouseEnter="grid_MouseEnter" MouseLeave="Grid_MouseEnter">
+                        <Button Name="btn_UserList" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132"  Style="{StaticResource MyButton}" Click="Btn_ClickShowUserListGrid"/>
                         <Image Name="img_UserList" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
-                    <Grid Name="grid_Button2" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
-                        <Button Name="btn_Messages" Height="61" Margin="77,0,1,0" Background="#FF3F3F46" BorderThickness="0" Content="Messages" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" VerticalAlignment="Bottom" Style="{StaticResource MyButton}" Click="btn_ClickShowMessageGrid"/>
+                    <Grid Name="grid_Button2" MouseEnter="grid_MouseEnter" MouseLeave="Grid_MouseEnter">
+                        <Button Name="btn_Messages" Height="61" Margin="77,0,1,0" Background="#FF3F3F46" BorderThickness="0" Content="Messages" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" VerticalAlignment="Bottom" Style="{StaticResource MyButton}" Click="Btn_ClickShowMessageGrid"/>
                         <Image  Name="img_Messages" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
-                    <Grid Name="grid_Button3" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
+                    <Grid Name="grid_Button3" MouseEnter="grid_MouseEnter" MouseLeave="Grid_MouseEnter">
                         <Button Name="btn_Roulette" Height="61" Margin="0,20,0.6,0" Background="#FF3F3F46" BorderThickness="0" Content="Userlist" FontFamily="Book Antiqua" FontSize="20" Foreground="WhiteSmoke" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="132" Style="{StaticResource MyButton}"/>
                         <Image  Name="img_Roulette" Margin="0,0,0,9.8" Height="60" Width="60" Source="D:\GitHub\TwitchBot\Resources\UserListBackroundNormal.jpg" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
@@ -78,7 +78,7 @@
                     </DataGrid>
                         <Grid VerticalAlignment="Bottom" Background="#FF3F3F46" Margin="0" Height="30" DockPanel.Dock="Left">
                             <StackPanel Orientation="Horizontal">
-                                <Button x:Name="btn_RefreshUserList" Margin="0,0,10,0" Background="#FF3F3F46" BorderThickness="0" Click="btn_ClickRefresh" HorizontalAlignment="Left">
+                                <Button x:Name="btn_RefreshUserList" Margin="0,0,10,0" Background="#FF3F3F46" BorderThickness="0" Click="Btn_ClickRefresh" HorizontalAlignment="Left">
                                     <Image Source="D:\GitHub\TwitchBot\Resources\refresh.png"/>
                                 </Button>
                                 <Label Margin="30,0,25,0" Content="Filter:" Height="30.4"/>

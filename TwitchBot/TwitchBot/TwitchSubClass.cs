@@ -8,6 +8,7 @@ using System.IO;
 
 namespace TwitchBot
 {
+    //Klasse wird benötigt um Follows mit zu verfolgen
     public class TwitchSubClass
     {
         private readonly TwitchPubSub client;
@@ -22,9 +23,9 @@ namespace TwitchBot
         private void Client_OnFollow(object sender, TwitchLib.PubSub.Events.OnFollowArgs e)
         {
             Console.WriteLine("The User: " + e.DisplayName + " has followed!");
-            TwitchBotWin.winRef.GetUserListClass().SetUserTypeOfUser(e.Username, "Follower");
+            TwitchBotWin.WinRef.GetUserListClass().SetUserTypeOfUser(e.Username, "Follower");
             //Add new follower to Stream
-            TwitchBotWin.winRef.RefreshCountLabels();
+            TwitchBotWin.WinRef.RefreshCountLabels();
 
         }
         private void Client_OnPubSubServiceConnected(object sender, EventArgs e)

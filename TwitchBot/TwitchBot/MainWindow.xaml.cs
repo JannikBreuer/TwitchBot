@@ -25,7 +25,7 @@ namespace TwitchBot
             InitializeComponent();
         }
 
-        private void btn_Login_Click(object sender, RoutedEventArgs e)
+        private void Btn_Login_Click(object sender, RoutedEventArgs e)
         {
             Login();
             var win = new TwitchBotWin();
@@ -33,7 +33,7 @@ namespace TwitchBot
             this.Close();
         }
 
-        private void btn_Exit_Click(object sender, RoutedEventArgs e)
+        private void Btn_Exit_Click(object sender, RoutedEventArgs e)
         {
 
         }
